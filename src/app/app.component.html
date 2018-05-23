@@ -14,12 +14,12 @@
             </button>
             <div class="data-filter-group-panel" *ngIf="showFavList">
               <div class="panel-body data-filter-group-panel-body">
-                <input type="search" class="form-control form-control-sm" placeholder="Search" formControlName="querystring">
-                <ul class="data-filter-group-list" *ngIf="(isFavouritesLoaded$ | async)">
+                <input type="search" class="form-control form-control-sm" placeholder="Search" formControlName="querystring" *ngIf="(isFavouritesLoaded$ | async)">
+                <ul class="data-filter-group-list" *ngIf="!(isFavouritesLoading$ | async)">
                   <li *ngFor="let item of favourites$ | async">
                     <a (click)="setSelectedFav(item, $event)">{{ item.name }}</a>
                   </li>
-                  <li *ngIf="!(favourites$ | async)">No Favorite found</li>
+                  <li *ngIf="!(favourites$ | async).length">Not Favourite found</li>
                 </ul>
                 <ul class="data-filter-group-list" *ngIf="isFavouritesLoading$ | async">
                   <li>Loading...</li>

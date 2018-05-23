@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { LoadFavouritesAction, AppState } from './store';
-import { getFavourites, getFavouriteLoading, getFavouriteLoaded } from './store/selectors/favourite.selectors';
+import { AppState } from './store/reducers';
+import { LoadFavouritesAction, SearchFavouritesAction } from './store/actions/favourite.actions';
+import { getFavourites, getFavouriteLoading } from './store/selectors/favourite.selectors';
 import { Observable } from 'rxjs';
 import { Favourite } from './core/models';
 
@@ -12,7 +13,6 @@ import { Favourite } from './core/models';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public isFavouritesLoaded$: Observable<boolean>;
   public isFavouritesLoading$: Observable<boolean>;
   public favourites$: Observable<Favourite[]>;
   public selectedOption: Favourite;
@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.favourites$ = this.store.select(getFavourites);
     this.isFavouritesLoading$ = this.store.select(getFavouriteLoading);
-    this.isFavouritesLoaded$ = this.store.select(getFavouriteLoaded);
     this.favForm = this.fb.group({
       querystring: ['']
     });
@@ -38,7 +37,8 @@ export class AppComponent implements OnInit {
     // ... do other stuff here ...
     this.favForm.valueChanges.subscribe(val => {
       if (val.querystring) {
-        console.log(val.querystrin);
+        const querystring = val.querystring;
+        this.store.dispatch(new SearchFavouritesAction(querystring));
       }
     });
   }

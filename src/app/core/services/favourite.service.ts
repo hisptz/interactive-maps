@@ -16,4 +16,12 @@ export class FavouriteService {
       .get(`maps.json?fields=id,displayName~rename(name)&_dc=1514366772136&pageSize=8&page=1&start=0&limit=8`)
       .pipe(map(({ maps }) => maps));
   }
+
+  searchFavourite(favName: string): Observable<Favourite[]> {
+    return this.httpClient
+      .get(
+        `api/maps.json?fields=id,displayName~rename(name)&filter=displayName:ilike:${favName}&_dc=1514366772136&pageSize=8&page=1&start=0&limit=8`
+      )
+      .pipe(map(({ maps }) => maps));
+  }
 }

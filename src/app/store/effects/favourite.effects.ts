@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, flatMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { FavouriteService } from '../../core/services/favourite.service';
 import {
   FavouriteActionType,
   LoadFavouritesAction,
   LoadFavouritesSuccessAction,
-  LoadFavouritesFailAction
+  LoadFavouritesFailAction,
+  SearchFavouritesAction
 } from '../actions/favourite.actions';
 import { Favourite } from '../../core/models/favourite.model';
 
@@ -16,10 +17,23 @@ export class FavouriteEffects {
   constructor(private actions$: Actions, private favouriteService: FavouriteService) {}
 
   @Effect()
-  loadCurrentUser$ = this.actions$.pipe(
+  loadFavourites$ = this.actions$.pipe(
     ofType(FavouriteActionType.LOAD),
-    switchMap(() => this.favouriteService.loadFavourites()),
+    flatMap(() => this.favouriteService.loadFavourites()),
     map(favourites => new LoadFavouritesSuccessAction(favourites)),
-    catchError(error => of(new LoadFavouritesFailAction()))
+    catchError(error => of(new LoadFavouritesFailAction(error)))
+  );
+
+  @Effect()
+  searchFavourites$ = this.actions$.ofType(FavouriteActionType.SEARCH_FAVOURITE).pipe(
+    map((action: SearchFavouritesAction) => action.favouriteName),
+    flatMap(favouriteName => {
+      return this.favouriteService
+        .searchFavourite(favouriteName)
+        .pipe(
+          map(favourites => new LoadFavouritesSuccessAction(favourites)),
+          catchError(error => of(new LoadFavouritesFailAction(error)))
+        );
+    })
   );
 }

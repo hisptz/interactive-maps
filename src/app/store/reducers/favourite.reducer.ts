@@ -10,12 +10,13 @@ export interface FavouriteState {
 export const initialState: FavouriteState = {
   loading: false,
   loaded: false,
-  favourites: null
+  favourites: []
 };
 
 export function favouriteReducer(state: FavouriteState = initialState, action: FavouritesAction): FavouriteState {
   switch (action.type) {
     case FavouriteActionType.LOAD:
+    case FavouriteActionType.SEARCH_FAVOURITE:
       return {
         ...state,
         loading: true
