@@ -3,9 +3,9 @@ import { getSanitizedAnalyticsMetadata } from './standardize-incoming-analytics.
 
 export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters: any[]) {
   // TODO deal with analytics with more than one dynamic dimensions
-  let newAnalyticsObject: any = { ...analyticsObject };
+  let newAnalyticsObject: any = {...analyticsObject};
   if (analyticsObject !== null) {
-    const newMetadata: any = { ...getSanitizedAnalyticsMetadata(analyticsObject.metaData, true) };
+    const newMetadata: any = {...getSanitizedAnalyticsMetadata(analyticsObject.metaData, true)};
 
     if (analyticsObject.headers) {
       const headersWithOptionSet = _.filter(analyticsObject.headers, analyticsHeader => analyticsHeader.optionSet);
@@ -58,7 +58,10 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
       });
 
       _.each(headersWithDynamicDimensionButNotOptionSet, header => {
-        const headerOptionsWithoutOptionSetObject = _.find(visualizationFilters, ['name', header.name]);
+        const headerOptionsWithoutOptionSetObject = _.find(visualizationFilters, [
+          'name',
+          header.name
+        ]);
 
         if (headerOptionsWithoutOptionSetObject) {
           const headerFilter = headerOptionsWithoutOptionSetObject.value;
@@ -70,15 +73,10 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
             if (splittedFilter.length > 1) {
               // find index for the dimension
               const dataSelectionHeaderIndex = analyticsObject.headers.indexOf(
-                _.find(analyticsObject.headers, ['name', headerOptionsWithoutOptionSetObject.name])
-              );
-              const rowValues =
-                dataSelectionHeaderIndex !== -1
-                  ? _.filter(
-                      _.map(analyticsObject.rows, row => parseInt(row[dataSelectionHeaderIndex], 10)),
-                      rowValue => !isNaN(rowValue)
-                    )
-                  : [];
+                _.find(analyticsObject.headers, ['name', headerOptionsWithoutOptionSetObject.name]));
+              const rowValues = dataSelectionHeaderIndex !== -1 ?
+                _.filter(_.map(analyticsObject.rows, row => parseInt(row[dataSelectionHeaderIndex], 10)),
+                  rowValue => !isNaN(rowValue)) : [];
               headerOptions = getFilterOptions(splittedFilter[0], parseInt(splittedFilter[1], 10), _.max(rowValues));
             } else {
               if (headerOptionsWithoutOptionSetObject.items) {
@@ -159,17 +157,14 @@ function getFilterOptions(operator: string, testValue: number, maxValue: number)
         };
       });
     case 'EQ':
-      return [{ code: testValue.toString(), name: testValue.toString() }];
+      return [{code: testValue.toString(), name: testValue.toString()}];
     case 'NE':
-      return _.filter(
-        _.times(maxValue + 1, (valueItem: number) => {
-          return {
-            code: valueItem.toString(),
-            name: valueItem.toString()
-          };
-        }),
-        valueItem => parseInt(valueItem.code, 10) !== testValue
-      );
+      return _.filter(_.times(maxValue + 1, (valueItem: number) => {
+        return {
+          code: valueItem.toString(),
+          name: valueItem.toString()
+        };
+      }), valueItem => parseInt(valueItem.code, 10) !== testValue);
     default:
       return [];
   }
@@ -213,6 +208,7 @@ function getFilterNumberRange(filterString) {
       }
     ];
   } else if (splitedFilter[0] === 'GE') {
+
   } else if (splitedFilter[0] === 'GT') {
   } else if (splitedFilter[0] === 'NE') {
   }

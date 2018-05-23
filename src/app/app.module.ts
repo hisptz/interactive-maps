@@ -15,6 +15,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RouteSerializer } from './core/utils/route-serializer.util';
 import { CoreModule } from './core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MapModule } from './../map/map.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +23,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     BrowserModule,
     RoutingModule,
     FormsModule,
+    MapModule,
     ReactiveFormsModule,
     CoreModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),

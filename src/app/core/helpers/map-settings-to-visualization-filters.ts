@@ -1,4 +1,4 @@
-import { getDimensionValues } from './get-dimension-values.helpers';
+import {getDimensionValues} from './get-dimension-values.helpers';
 
 export function mapSettingsToVisualizationFilters(visualizationSettings: any) {
   const visualizationFilters: any = [

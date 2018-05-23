@@ -1,4 +1,4 @@
-import { Visualization } from '../models/visualization.model';
+import { Visualization } from '../models';
 import * as _ from 'lodash';
 import { getDimensionValues } from './get-dimension-values.helpers';
 import { mapSettingsToVisualizationFilters } from './map-settings-to-visualization-filters';

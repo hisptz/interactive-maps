@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
 export function getMergedAnalytics(splitedAnalyticsArray: any[]) {
+
   /**
    * Check if analytics array is supplied and return null if not
    */
@@ -59,6 +60,7 @@ export function getMergedAnalytics(splitedAnalyticsArray: any[]) {
             metadata[metadataKey] = [];
           }
         }
+
       });
 
       /**
