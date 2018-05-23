@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AppState } from './store/reducers';
 import { LoadFavouritesAction, SearchFavouritesAction } from './store/actions/favourite.actions';
+import { CreateVisualizationAction } from './store/actions/visualization.actions';
 import { getFavourites, getFavouriteLoading } from './store/selectors/favourite.selectors';
 import { Observable } from 'rxjs';
 import { Favourite } from './core/models';
@@ -50,8 +51,8 @@ export class AppComponent implements OnInit {
 
   setSelectedFav(fav: Favourite, event) {
     event.stopPropagation();
+    this.store.dispatch(new CreateVisualizationAction(fav.id));
     this.selectedOption = fav;
     this.showFavList = !this.showFavList;
-    console.log(fav.id);
   }
 }
