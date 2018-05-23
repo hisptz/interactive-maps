@@ -41,15 +41,14 @@ export function getDimensionValues(dimensionArray: any, dataDimensions) {
               itemType: item.dimensionItemType
             };
           });
-
           const itemValues = dimensionObject.items
-            .map(item => {
-              return item.dimensionItem ? item.dimensionItem : '';
+            .map(({ id, dimensionItem }) => {
+              return dimensionItem || id || '';
             })
             .join(';');
           dimensionValue.value = itemValues !== '' ? itemValues : dimensionObject.filter ? dimensionObject.filter : '';
         }
-        dimensionValues.push(dimensionValue);
+        console.log(dimensionValue);
       }
     });
   }

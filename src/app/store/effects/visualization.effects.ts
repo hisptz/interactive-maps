@@ -83,6 +83,7 @@ export class VisualizationEffects {
       const visualizationDetails: any = { ...visualizationObject.details };
       const visualizationLayers: any[] = [...visualizationObject.layers];
       const analyticsPromises = _.map(visualizationLayers, (visualizationLayer: any) => {
+        console.log(visualizationDetails);
         const visualizationFilter = _.find(visualizationDetails.filters, ['id', visualizationLayer.settings.id]);
 
         const dxFilterObject = _.find(visualizationFilter ? visualizationFilter.filters : [], ['name', 'dx']);
@@ -142,8 +143,6 @@ export class VisualizationEffects {
         );
       });
 
-      console.log(analyticsPromises);
-
       return forkJoin(analyticsPromises).pipe(
         map((analyticsResponse: any[]) => {
           const layers = _.map(action.visualization.layers, (visualizationLayer: any, layerIndex: number) => {
@@ -182,22 +181,21 @@ export class VisualizationEffects {
     visualizationSettings: any,
     visualizationFilters: any[]
   ): Observable<any> {
+    console.log(visualizationFilters);
     const analyticsUrl = constructAnalyticsUrl(visualizationType, visualizationSettings, visualizationFilters);
-
+    const altenalteAnalyticsUrl = constructAnalyticsUrl(
+      visualizationType,
+      {
+        ...visualizationSettings,
+        eventClustering: false
+      },
+      visualizationFilters
+    );
     return analyticsUrl !== ''
-      ? this.httpClient.get(analyticsUrl).pipe(
+      ? this.httpClient.get(`api/${analyticsUrl}`).pipe(
           mergeMap((analyticsResult: any) => {
             return analyticsResult.count && analyticsResult.count < 2000
-              ? this.httpClient.get(
-                  constructAnalyticsUrl(
-                    visualizationType,
-                    {
-                      ...visualizationSettings,
-                      eventClustering: false
-                    },
-                    visualizationFilters
-                  )
-                )
+              ? this.httpClient.get(`api/${altenalteAnalyticsUrl}`)
               : of(analyticsResult);
           })
         )
