@@ -1,16 +1,8 @@
 import * as L from 'leaflet';
 import * as _ from 'lodash';
 import { label } from './Label';
-import {
-  getOrgUnitsFromRows,
-  getPeriodFromFilters,
-  getDataItemsFromColumns
-} from '../utils/analytics';
-import {
-  getLegendItems,
-  getLegendItemForValue,
-  getColorsByRgbInterpolation
-} from '../utils/classify';
+import { getOrgUnitsFromRows, getPeriodFromFilters, getDataItemsFromColumns } from '../utils/analytics';
+import { getLegendItems, getLegendItemForValue, getColorsByRgbInterpolation } from '../utils/classify';
 import { toGeoJson } from './GeoJson';
 import { GeoJson } from 'leaflet';
 import { Feature, GeometryObject } from 'geojson';
@@ -30,15 +22,8 @@ export const thematic = options => {
   } = options;
   const { rows, columns, filters } = dataSelections;
   const { radiusLow, radiusHigh } = layerOptions;
-  const {
-    labelFontStyle,
-    labelFontSize,
-    labelFontColor,
-    labelFontWeight,
-    labels
-  } = displaySettings;
+  const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels } = displaySettings;
   const features = toGeoJson(geofeature);
-  const readyToRender = dataSelections.legendSet ? legendSet : true;
   const otherOptions = thematicLayerOptions(options.id, opacity, displaySettings);
   let geoJsonLayer = L.geoJSON(features, otherOptions);
   let legend = null;
@@ -59,8 +44,7 @@ export const thematic = options => {
     legend.items.forEach(item => (item.count = 0));
     const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
     legend['period'] =
-      (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) ||
-      analyticsData.metaData.pe[0];
+      (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) || analyticsData.metaData.pe[0];
 
     valueFeatures.forEach(({ id, properties }) => {
       const value = valueById[id];
@@ -79,8 +63,7 @@ export const thematic = options => {
         fontColor: labelFontColor,
         fontWeight: labelFontWeight
       };
-      properties.radius =
-        (value - minValue) / (maxValue - minValue) * (radiusHigh - radiusLow) + radiusLow;
+      properties.radius = (value - minValue) / (maxValue - minValue) * (radiusHigh - radiusLow) + radiusLow;
     });
     const _options = {
       ...otherOptions,
@@ -187,13 +170,7 @@ const createLegendFromConfig = (data, config, displayName, type) => {
 };
 
 export const thematicLayerOptions = (id, opacity, displaySettings) => {
-  const {
-    labelFontStyle,
-    labelFontSize,
-    labelFontColor,
-    labelFontWeight,
-    labels
-  } = displaySettings;
+  const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels } = displaySettings;
   const style = feature => {
     const pop = feature.properties;
     return {

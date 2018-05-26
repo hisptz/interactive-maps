@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, flatMap, mergeMap, tap } from 'rxjs/operators';
-import { of, forkJoin, Observable } from 'rxjs';
+import { of, forkJoin, Observable, merge } from 'rxjs';
 import { FavouriteService } from '../../core/services/favourite.service';
 import {
   VisualizationActionTypes,
@@ -9,6 +9,7 @@ import {
   LoadVisualizationFailAction,
   LoadVisualizationSuccessAction,
   TransformFavouriteAction,
+  LoadLegendSet,
   LoadVisualizationAnalyticsAction
 } from '../actions/visualization.actions';
 import { Visualization } from '../../core/models/visualization.model';
@@ -72,7 +73,29 @@ export class VisualizationEffects {
       const visualization = updateVisualizationWithSettings(initialVisualization, action.visualization);
       return visualization;
     }),
-    map(visualization => new LoadVisualizationAnalyticsAction(visualization)),
+    map(visualization => new LoadLegendSet(visualization)),
+    catchError(error => of(new LoadVisualizationFailAction(error)))
+  );
+
+  @Effect()
+  LoadLegendSets$ = this.actions$.ofType<LoadLegendSet>(VisualizationActionTypes.LOAD_LEGENDSET).pipe(
+    flatMap((action: LoadLegendSet) => {
+      const visualizationObject: Visualization = { ...action.visualization };
+      const visualizationLayers: any[] = [...visualizationObject.layers];
+      const legendSetPromise$ = visualizationLayers.map(({ settings }) => this.getLegendsPromise(settings.legendSet));
+      return forkJoin(legendSetPromise$).pipe(
+        map(legendResponse => {
+          console.log(legendResponse);
+          const layers = visualizationLayers.map((layer, index) => {
+            const { settings } = layer;
+            const legendSet = legendResponse[index];
+            return { ...layer, settings: { ...settings, legendSet } };
+          });
+          return { ...visualizationObject, layers };
+        })
+      );
+    }),
+    map(legendSets => new LoadVisualizationAnalyticsAction(legendSets)),
     catchError(error => of(new LoadVisualizationFailAction(error)))
   );
 
@@ -197,6 +220,23 @@ export class VisualizationEffects {
               : of(analyticsResult);
           })
         )
+      : of(null);
+  }
+
+  private getLegendsPromise(legendSet: any): Observable<any> {
+    const needLegends = legendSet && legendSet.id;
+    const fields = [
+      'id',
+      'displayName~rename(name)',
+      'legends[*,!created',
+      '!lastUpdated',
+      '!displayName',
+      '!externalAccess',
+      '!access',
+      '!userGroupAccesses'
+    ];
+    return needLegends
+      ? this.httpClient.get(`api/legendSets/${legendSet.id}.json?fields=${fields.join(',')}`)
       : of(null);
   }
 
