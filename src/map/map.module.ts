@@ -12,8 +12,6 @@ import * as fromComponents from './components';
 
 import * as fromServices from './services';
 
-import { DragulaModule } from 'ng2-dragula';
-
 import { NgxPaginationModule } from 'ngx-pagination';
 
 // Filters Modules
@@ -22,7 +20,6 @@ import * as Filters from './modules';
 @NgModule({
   imports: [
     CommonModule,
-    DragulaModule,
     NgxPaginationModule,
     ...Filters.modules,
     StoreModule.forFeature('map', reducers),

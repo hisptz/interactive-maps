@@ -83,7 +83,6 @@ export class VisualizationEffects {
       const visualizationDetails: any = { ...visualizationObject.details };
       const visualizationLayers: any[] = [...visualizationObject.layers];
       const analyticsPromises = _.map(visualizationLayers, (visualizationLayer: any) => {
-        console.log(visualizationDetails);
         const visualizationFilter = _.find(visualizationDetails.filters, ['id', visualizationLayer.settings.id]);
 
         const dxFilterObject = _.find(visualizationFilter ? visualizationFilter.filters : [], ['name', 'dx']);
@@ -101,7 +100,7 @@ export class VisualizationEffects {
             ? {
                 ...filter,
                 items: normalDxItems,
-                value: _.map(normalDxItems, item => item.dimensionItem).join(';')
+                value: _.map(normalDxItems, item => item.dimensionItem || item.id).join(';')
               }
             : filter;
         });
@@ -181,7 +180,6 @@ export class VisualizationEffects {
     visualizationSettings: any,
     visualizationFilters: any[]
   ): Observable<any> {
-    console.log(visualizationFilters);
     const analyticsUrl = constructAnalyticsUrl(visualizationType, visualizationSettings, visualizationFilters);
     const altenalteAnalyticsUrl = constructAnalyticsUrl(
       visualizationType,

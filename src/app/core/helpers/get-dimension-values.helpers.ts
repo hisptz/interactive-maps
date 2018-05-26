@@ -6,7 +6,6 @@ export function getDimensionValues(dimensionArray: any, dataDimensions) {
   if (dimensionArray) {
     dimensionArray.forEach((dimensionObject: any) => {
       if (dimensionObject.dimension !== 'dy') {
-
         const dimensionValue = {
           name: '',
           value: '',
@@ -43,15 +42,16 @@ export function getDimensionValues(dimensionArray: any, dataDimensions) {
             };
           });
 
-          const itemValues = dimensionObject.items.map(item => {
-            return item.dimensionItem ? item.dimensionItem : '';
-          }).join(';');
+          const itemValues = dimensionObject.items
+            .map(item => {
+              return item.dimensionItem || item.id || '';
+            })
+            .join(';');
           dimensionValue.value = itemValues !== '' ? itemValues : dimensionObject.filter ? dimensionObject.filter : '';
         }
         dimensionValues.push(dimensionValue);
       }
     });
   }
-
   return dimensionValues;
 }

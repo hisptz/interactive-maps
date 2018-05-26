@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable ,  BehaviorSubject } from 'rxjs';
 import { getDimensionItems } from '../../utils/analytics';
 import * as fromStore from '../../store';
 

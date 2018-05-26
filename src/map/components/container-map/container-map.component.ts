@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { VisualizationObject } from '../../models/visualization-object.model';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import * as fromStore from '../../store';
 
 @Component({

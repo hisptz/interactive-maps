@@ -1,13 +1,11 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable ,  BehaviorSubject ,  SubscriptionLike as ISubscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { TILE_LAYERS } from '../../constants/tile-layer.constant';
 import * as fromStore from '../../store';
 import { LegendSet } from '../../models/Legend-set.model';
-import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-visualization-legend',

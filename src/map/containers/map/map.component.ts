@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable ,  BehaviorSubject ,  of ,  interval } from 'rxjs';
 import * as fromStore from '../../store';
 import { Layer } from '../../models/layer.model';
 import * as fromUtils from '../../utils';
@@ -12,9 +11,6 @@ import { GeoFeature } from '../../models/geo-feature.model';
 import * as fromLib from '../../lib';
 import { Map, LatLngExpression, control, LatLngBoundsExpression } from 'leaflet';
 import { getSplitedVisualization } from '../../../app/core/helpers';
-
-import { of } from 'rxjs/observable/of';
-import { interval } from 'rxjs/observable/interval';
 import { map, filter, tap, flatMap } from 'rxjs/operators';
 
 @Component({

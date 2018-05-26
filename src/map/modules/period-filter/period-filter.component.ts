@@ -1,24 +1,23 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import * as fromPeriodFilterModel from "./period-filter.model";
-import * as _ from "lodash";
-import { PeriodService } from "./period.service";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import * as fromPeriodFilterModel from './period-filter.model';
+import * as _ from 'lodash';
+import { PeriodService } from './period.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Component({
-  selector: "app-period-filter",
-  templateUrl: "./period-filter.component.html",
-  styleUrls: ["./period-filter.component.css"]
+  selector: 'app-period-filter',
+  templateUrl: './period-filter.component.html',
+  styleUrls: ['./period-filter.component.css']
 })
 export class PeriodFilterComponent implements OnInit {
   periodTypes: any[];
-  @Input() selectedPeriodType = "";
+  @Input() selectedPeriodType = '';
   @Input() selectedPeriods: any[] = [];
   @Input()
   periodConfig: any = {
     resetOnPeriodTypeChange: false,
-    emitOnSelection: false
+    emitOnSelection: false,
+    singleSelection: false
   };
   @Output() onPeriodUpdate = new EventEmitter();
   @Output() onPeriodFilterClose = new EventEmitter();
@@ -43,8 +42,8 @@ export class PeriodFilterComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.selectedPeriodType === "") {
-      this.selectedPeriodType = "Monthly";
+    if (this.selectedPeriodType === '') {
+      this.selectedPeriodType = 'Monthly';
     }
     this._periods = this.getPeriods(this.selectedPeriodType, this.selectedYear, this.selectedPeriods);
     this.periods$.next(this._periods);
@@ -59,7 +58,7 @@ export class PeriodFilterComponent implements OnInit {
 
   updatePeriodsWithSelected(periods: any[], selectedPeriods: any[]) {
     selectedPeriods.forEach((selectedPeriod: any) => {
-      const availablePeriod = _.find(periods, ["id", selectedPeriod.id]);
+      const availablePeriod = _.find(periods, ['id', selectedPeriod.id]);
       if (availablePeriod) {
         const periodIndex = _.findIndex(periods, availablePeriod);
         availablePeriod.selected = true;
@@ -74,8 +73,11 @@ export class PeriodFilterComponent implements OnInit {
   }
 
   togglePeriod(period, e) {
+    if (this.periodConfig.singleSelection) {
+      this.deselectAllPeriods(e);
+    }
     e.stopPropagation();
-    const periodIndex = _.findIndex(this._periods, _.find(this._periods, ["id", period.id]));
+    const periodIndex = _.findIndex(this._periods, _.find(this._periods, ['id', period.id]));
 
     if (periodIndex !== -1) {
       if (period.selected) {
@@ -172,8 +174,8 @@ export class PeriodFilterComponent implements OnInit {
     const selectedPeriods = this._periods.filter((period: any) => period.selected);
     this.onPeriodUpdate.emit({
       items: selectedPeriods,
-      name: "pe",
-      value: selectedPeriods.map(period => period.id).join(";")
+      name: 'pe',
+      value: selectedPeriods.map(period => period.id).join(';')
     });
   }
 

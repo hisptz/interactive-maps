@@ -1,11 +1,11 @@
+
+import {zip as observableZip, combineLatest as observableCombineLatest,  of ,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
-import { of } from 'rxjs/observable/of';
 import { Store } from '@ngrx/store';
-import { map, switchMap, catchError, combineLatest, flatMap, mergeMap } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/observable/zip';
+import { map, switchMap, catchError, combineLatest, flatMap, mergeMap ,  tap ,  mergeAll } from 'rxjs/operators';
+
+
 
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as legendSetActions from '../actions/legend-set.action';
@@ -13,9 +13,7 @@ import * as layerActions from '../actions/layers.action';
 import * as fromServices from '../../services';
 import * as fromStore from '../../store';
 import * as fromUtils from '../../utils';
-import { tap } from 'rxjs/operators/tap';
 import { Layer } from '../../models/layer.model';
-import { mergeAll } from 'rxjs/operators/mergeAll';
 import { toGeoJson } from '../../utils/layers';
 import { timeFormat } from 'd3-time-format';
 
@@ -194,7 +192,7 @@ export class VisualizationObjectEffects {
 
         // This is a hack find a way not to subscribe please!
         // TODO: remove this hack;
-        Observable.combineLatest(sources).subscribe(geofeature => {
+        observableCombineLatest(sources).subscribe(geofeature => {
           if (geofeature) {
             const geofeatures = Object.keys(entities).reduce((arr = {}, key, index) => {
               return { ...arr, [key]: geofeature[index] };
@@ -208,7 +206,7 @@ export class VisualizationObjectEffects {
             );
           }
         });
-        return Observable.zip(sources);
+        return observableZip(sources);
       })
     );
 

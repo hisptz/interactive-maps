@@ -1,10 +1,10 @@
+
+import {combineLatest as observableCombineLatest,  of ,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
-import { of } from 'rxjs/observable/of';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/combineLatest';
+
 
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as dataSelectionAction from '../actions/data-selection.action';
@@ -78,7 +78,7 @@ export class AnalyticsEffects {
 
       const newSources = sources.length ? sources : Observable.create([]);
 
-      return Observable.combineLatest(newSources).pipe(
+      return observableCombineLatest(newSources).pipe(
         map((data, index) => {
           let analytics = {};
           if (data.length) {

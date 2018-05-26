@@ -1,9 +1,9 @@
+
+import {combineLatest as observableCombineLatest,  of ,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
-import { of } from 'rxjs/observable/of';
 import { map, switchMap, catchError } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/combineLatest';
+
 
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as layersActions from '../actions/layers.action';
@@ -33,7 +33,7 @@ export class OrganizationUnitGroupSetEffects {
             })
           : Observable.create([]);
 
-        return Observable.combineLatest(sources).pipe(
+        return observableCombineLatest(sources).pipe(
           map(data => {
             let orgUnitGroupSet = {};
             if (data.length) {
