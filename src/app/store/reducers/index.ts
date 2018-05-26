@@ -27,6 +27,6 @@ export const getRootState = (state: AppState) => state;
  */
 export const getCurrentUserState = createSelector(getRootState, (state: AppState) => state.currentUser);
 export const getFavouriteState = createSelector(getRootState, (state: AppState) => state.favourites);
-export const getVisualizationObject = createSelector(getRootState, (state: AppState) => state.visualization);
+export const getVisualizationState = createSelector(getRootState, (state: AppState) => state.visualization);
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [storeFreeze] : [];

@@ -5,8 +5,9 @@ import { AppState } from './store/reducers';
 import { LoadFavouritesAction, SearchFavouritesAction } from './store/actions/favourite.actions';
 import { CreateVisualizationAction } from './store/actions/visualization.actions';
 import { getFavourites, getFavouriteLoading } from './store/selectors/favourite.selectors';
+import { getVisualizationObject } from './store/selectors/visualization.selectors';
 import { Observable } from 'rxjs';
-import { Favourite } from './core/models';
+import { Favourite, Visualization } from './core/models';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ import { Favourite } from './core/models';
 export class AppComponent implements OnInit {
   public isFavouritesLoading$: Observable<boolean>;
   public favourites$: Observable<Favourite[]>;
+  public vizObject$: Observable<Visualization>;
   public selectedOption: Favourite;
   public favForm: FormGroup;
   public showFavList: boolean;
@@ -23,6 +25,7 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<AppState>, public fb: FormBuilder) {
     this.showFavList = false;
     store.dispatch(new LoadFavouritesAction());
+    this.vizObject$ = this.store.select(getVisualizationObject);
   }
 
   ngOnInit() {
