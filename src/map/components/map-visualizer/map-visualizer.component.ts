@@ -307,12 +307,19 @@ export class MapVisualizerComponent implements OnChanges {
   }
 
   redrawMapOndataChange(visualizationObject: VisualizationObject) {
+    const { itemHeight, mapWidth } = this.displayConfigurations;
     Object.keys(this.leafletLayers).map(key => this.map.removeLayer(this.leafletLayers[key]));
     const { mapConfiguration } = visualizationObject;
     const { overlayLayers, layersBounds, legendSets } = this.prepareLegendAndLayers(visualizationObject);
     overlayLayers.map((layer, index) => {
       this.createLayer(layer, index);
     });
+
+    const fullScreen = (mapConfiguration && mapConfiguration.fullScreen) || itemHeight === '100vh';
+
+    if (fullScreen) {
+      this.store.dispatch(new fromStore.FullScreenOpenVisualizationLegend(visualizationObject.componentId));
+    }
 
     if (Object.keys(legendSets).length) {
       this._currentLegendSets = legendSets;
