@@ -5,7 +5,7 @@ import { AppState } from './store/reducers';
 import { LoadFavouritesAction, SearchFavouritesAction } from './store/actions/favourite.actions';
 import { CreateVisualizationAction } from './store/actions/visualization.actions';
 import { getFavourites, getFavouriteLoading } from './store/selectors/favourite.selectors';
-import { getVisualizationObject } from './store/selectors/visualization.selectors';
+import { getVisualizationObject, isVisualizationLoading } from './store/selectors/visualization.selectors';
 import { Observable } from 'rxjs';
 import { Favourite, Visualization } from './core/models';
 import * as L from 'leaflet';
@@ -17,6 +17,7 @@ import * as L from 'leaflet';
 })
 export class AppComponent implements OnInit, AfterViewInit {
   public isFavouritesLoading$: Observable<boolean>;
+  public isVisualizationLoading$: Observable<boolean>;
   public favourites$: Observable<Favourite[]>;
   public vizObject$: Observable<Visualization>;
   public selectedOption: Favourite;
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.showFavList = false;
     store.dispatch(new LoadFavouritesAction());
     this.vizObject$ = this.store.select(getVisualizationObject);
+    this.isVisualizationLoading$ = this.store.select(isVisualizationLoading);
   }
 
   ngOnInit() {
