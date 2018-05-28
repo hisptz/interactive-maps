@@ -169,7 +169,6 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     const data = [...columns, ...filters, ...rows];
     const selectedPeriods = getDimensionItems('pe', data);
     const selectedDataItems = getDimensionItems('dx', data);
-    console.log(selectedDataItems);
     this.selectedDataItems = selectedDataItems.map(dataItem => ({
       id: dataItem.dimensionItem,
       name: dataItem.displayName,

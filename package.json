@@ -1,10 +1,12 @@
 {
   "name": "interactive-map",
-  "version": "0.0.0",
+  "version": "0.0.1-beta1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "name": "interactive-map",
+    "build":
+      "ng build --prod --aot --output-hashing all  --named-chunks false --build-optimizer --vendor-chunk  && cd dist/interactiveMap && zip -r -D InteractiveMap.zip .",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
