@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "name": "interactive-map",
-    "build": "rm -rf dist && ng build --prod --aot --output-hashing all  --named-chunks false --build-optimizer --vendor-chunk  && cd dist/interactiveMap && zip -r -D InteractiveMap.zip .",
+    "build":
+      "rm -rf dist && ng build --prod --aot --output-hashing all  --named-chunks false --build-optimizer --vendor-chunk  && cd dist/interactiveMap && zip -r -D InteractiveMap.zip .",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
