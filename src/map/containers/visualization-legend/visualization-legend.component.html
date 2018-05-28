@@ -107,8 +107,9 @@
           </div>
           <div class="map-legend-body" *ngIf="activeLayer === -1" [ngStyle]="{'max-height': 'calc(' + mapHeight + ' - ' + (visualizationLegends.length + 4)*50 + 'px)'}">
             <ul class="tile-layers-list">
-              <li *ngFor="let tileLayer of LegendsTileLayer" (click)="changeTileLayer(tileLayer)" class="tile-layer-item map-tile-layer-icon">
-                <img [src]="tileLayer.image" [ngClass]="{'rowActive': tileLayer.name === baseLayerLegend.name}" />
+              <li *ngFor="let tileLayer of LegendsTileLayer" (click)="changeTileLayer(tileLayer)" class="tile-layer-item map-tile-layer-icon"
+                [ngClass]="{'rowActive': tileLayer.name === baseLayerLegend.name}">
+                <img [src]="tileLayer.image" />
                 <span class="tile_name">{{tileLayer.name}}</span>
               </li>
             </ul>

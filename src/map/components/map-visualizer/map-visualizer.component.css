@@ -113,3 +113,7 @@ img[title] {
   background: #fff;
   z-index: 701;
 }
+
+.leaflet-bottom .leaflet-control-scale {
+  margin-bottom: 36px;
+}

@@ -88,12 +88,13 @@
 }
 
 .tile-layer-item {
-  margin-top: 2px;
+  margin-top: 1px;
   height: 28px;
   display: flex;
 }
 
 .map-tile-layer-icon {
+  border: solid 1px #cdd2d4;
   cursor: pointer;
 }
 
@@ -104,7 +105,7 @@
 
 .tile_name {
   width: 74%;
-  font-size: 70%;
+  font-size: 64%;
   font-weight: 400;
   display: flex;
   justify-content: center;
@@ -321,7 +322,7 @@ table.tiles-table tr td {
 .rowActive {
   color: #337ab7;
   border-color: #337ab7;
-  outline: 3px solid #337ab7;
+  outline: 1px solid #337ab7;
   text-decoration: none;
 }
 

@@ -45,6 +45,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       attribution: '&copy;<a href="https://carto.com/attribution">cartoDB</a>',
       maxZoom: 18
     }).addTo(mymap);
+    L.control.scale().addTo(mymap);
   }
 
   onChangeMap(): void {

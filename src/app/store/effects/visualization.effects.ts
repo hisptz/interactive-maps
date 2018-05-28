@@ -61,7 +61,7 @@ export class VisualizationEffects {
         subtitle: null,
         details: {
           currentVisualization: FAVOURITE_TYPE,
-          cardHeight: '100vh',
+          cardHeight: '100%',
           type: FAVOURITE_TYPE,
           favorite: {
             type: FAVOURITE_TYPE,
