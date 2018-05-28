@@ -205,3 +205,13 @@
 .nav-item.fav-selection {
   min-width: 400px;
 }
+
+._container__holder {
+  flex: 1;
+}
+
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}

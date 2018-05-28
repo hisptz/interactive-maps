@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AppState } from './store/reducers';
@@ -8,13 +8,14 @@ import { getFavourites, getFavouriteLoading } from './store/selectors/favourite.
 import { getVisualizationObject } from './store/selectors/visualization.selectors';
 import { Observable } from 'rxjs';
 import { Favourite, Visualization } from './core/models';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   public isFavouritesLoading$: Observable<boolean>;
   public favourites$: Observable<Favourite[]>;
   public vizObject$: Observable<Visualization>;
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
     });
     this.onChangeMap();
   }
+  ngAfterViewInit() {}
 
   onChangeMap(): void {
     // ... do other stuff here ...

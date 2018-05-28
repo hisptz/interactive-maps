@@ -26,7 +26,7 @@ import { MapModule } from './../map/map.module';
     MapModule,
     ReactiveFormsModule,
     CoreModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 
     /**
      * Reducers
