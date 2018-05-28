@@ -55,9 +55,7 @@ export class ContainerMapComponent implements OnChanges {
     const { componentId } = visualizationObject;
 
     // Detect if visualizationLegend is Open;
-    this.visualizationLegendIsOpen$ = this.store.select(
-      fromStore.isVisualizationLegendOpen(componentId)
-    );
+    this.visualizationLegendIsOpen$ = this.store.select(fromStore.isVisualizationLegendOpen(componentId));
 
     // Detect if DataTable is Open;
     this.isDataTableOpen$ = this.store.select(fromStore.isDataTableOpen(componentId));

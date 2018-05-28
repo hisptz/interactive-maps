@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light bg-light _navbar">
   <a class="navbar-brand" href="#">Interactive Map</a>
   <div class="">
     <ul class="navbar-nav">
@@ -32,4 +32,6 @@
     </ul>
   </div>
 </nav>
-<app-map [vizObject]="vizObject$ | async" *ngIf="vizObject$ | async"></app-map>
+<app-map [vizObject]="vizObject$ | async" *ngIf="(vizObject$ | async)"></app-map>
+<div class="_container__holder" id="mapid" *ngIf="!(vizObject$ | async)"></div>
+<app-loader *ngIf="(isVisualizationLoading$ | async)"></app-loader>

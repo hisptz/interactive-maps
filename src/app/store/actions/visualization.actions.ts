@@ -8,12 +8,24 @@ export enum VisualizationActionTypes {
   LOAD_ANALYTICS = '[Visualization] Load map Analytics',
   LOAD = '[Visualization] Load current visualization',
   LOAD_SUCCESS = '[Visualization] Load current visualization success',
+  LOAD_LEGENDSET = '[Visualization] Load LegendSets',
+  LOAD_LEGENDSET_SUCCESS = '[Visualization] Load LegendSets success',
   LOAD_FAIL = '[Visualization] Load current visualization fail'
 }
 
 export class CreateVisualizationAction implements Action {
   readonly type = VisualizationActionTypes.LOAD_MAP_FROM_FAV;
   constructor(public favouriteID: string) {}
+}
+
+export class LoadLegendSet implements Action {
+  readonly type = VisualizationActionTypes.LOAD_LEGENDSET;
+  constructor(public visualization: Visualization) {}
+}
+
+export class LoadLegendSuccess implements Action {
+  readonly type = VisualizationActionTypes.LOAD_LEGENDSET_SUCCESS;
+  constructor(public legend: any) {}
 }
 
 export class TransformFavouriteAction implements Action {
@@ -27,7 +39,7 @@ export class LoadVisualizationAction implements Action {
 
 export class LoadVisualizationAnalyticsAction implements Action {
   readonly type = VisualizationActionTypes.LOAD_ANALYTICS;
-  constructor(public visualization: Visualization) {}
+  constructor(public visualization: Visualization, public legenSets?: any) {}
 }
 
 export class LoadVisualizationSuccessAction implements Action {
@@ -43,6 +55,8 @@ export class LoadVisualizationFailAction implements Action {
 
 export type VisualizationAction =
   | LoadVisualizationAction
+  | LoadLegendSuccess
+  | LoadLegendSet
   | CreateVisualizationAction
   | LoadVisualizationSuccessAction
   | LoadVisualizationFailAction;

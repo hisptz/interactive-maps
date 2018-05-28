@@ -27,15 +27,15 @@ export class FavouriteService {
 
   getMapFromFav(favId): Observable<any> {
     return this.httpClient.get(
-      `api/maps/${favId}.json?fields=id,user,displayName~rename(name),
+      `api/maps/${favId}.json?fields=id,user,displayName,
         longitude,latitude,zoom,basemap,mapViews%5B*,columns%5Bdimension,filter,
-        items%5BdimensionItem~rename(id),dimensionItemType,displayName~rename(name)%5D%5D,
-        rows%5Bdimension,filter,items%5BdimensionItem~rename(id),dimensionItemType,
-        displayName~rename(name)%5D%5D,filters%5Bdimension,filter,
-        items%5BdimensionItem~rename(id),dimensionItemType,
-        displayName~rename(name)%5D%5D,dataDimensionItems,
-        program%5Bid,displayName~rename(name)%5D,programStage%5Bid,
-        displayName~rename(name)%5D,legendSet%5Bid,displayName~rename(name)%5D,
+        items%5BdimensionItem,dimensionItemType,displayName%5D%5D,
+        rows%5Bdimension,filter,items%5BdimensionItem,dimensionItemType,
+        displayName%5D%5D,filters%5Bdimension,filter,
+        items%5BdimensionItem,dimensionItemType,
+        displayName%5D%5D,dataDimensionItems,
+        program%5Bid,displayName%5D,programStage%5Bid,
+        displayName%5D,legendSet%5Bid,displayName%5D,
         !lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,
         !userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,
         !externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,
