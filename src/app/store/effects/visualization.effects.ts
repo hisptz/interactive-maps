@@ -85,7 +85,6 @@ export class VisualizationEffects {
       const legendSetPromise$ = visualizationLayers.map(({ settings }) => this.getLegendsPromise(settings.legendSet));
       return forkJoin(legendSetPromise$).pipe(
         map(legendResponse => {
-          console.log(legendResponse);
           const layers = visualizationLayers.map((layer, index) => {
             const { settings } = layer;
             const legendSet = legendResponse[index];
