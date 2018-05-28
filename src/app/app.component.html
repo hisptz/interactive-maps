@@ -32,5 +32,5 @@
     </ul>
   </div>
 </nav>
-<app-map [vizObject]="vizObject$ | async" *ngIf="vizObject$ | async"></app-map>
-<div class="_container__holder"></div>
+<app-map [vizObject]="vizObject$ | async" *ngIf="(vizObject$ | async)"></app-map>
+<div class="_container__holder" id="mapid" *ngIf="!(vizObject$ | async)"></div>

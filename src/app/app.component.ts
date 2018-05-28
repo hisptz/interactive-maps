@@ -37,7 +37,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
     this.onChangeMap();
   }
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    const mymap = L.map('mapid', { zoomControl: false }).setView([22.763672, 9.795678], 3);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+      attribution: '&copy;<a href="https://carto.com/attribution">cartoDB</a>',
+      maxZoom: 18
+    }).addTo(mymap);
+  }
 
   onChangeMap(): void {
     // ... do other stuff here ...
