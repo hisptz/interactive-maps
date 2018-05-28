@@ -83,23 +83,33 @@
 }
 
 .tile-layers-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
 }
 
 .tile-layer-item {
-  margin: 5px;
+  margin-top: 2px;
+  height: 28px;
+  display: flex;
 }
 
 .map-tile-layer-icon {
-  border: solid thin #cdd2d4;
   cursor: pointer;
 }
 
 .map-tile-layer-icon img {
-  height: 60px;
-  width: 60px;
+  height: 25px;
+  width: 36%;
+}
+
+.tile_name {
+  width: 74%;
+  font-size: 70%;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-overflow: ellipsis;
 }
 
 .map-legend-footer {

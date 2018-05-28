@@ -106,14 +106,12 @@
             </div>
           </div>
           <div class="map-legend-body" *ngIf="activeLayer === -1" [ngStyle]="{'max-height': 'calc(' + mapHeight + ' - ' + (visualizationLegends.length + 4)*50 + 'px)'}">
-            <div class="tile-layers-list">
-              <div *ngFor="let tileLayer of LegendsTileLayer" class="tile-layer-item">
-                <a class="map-tile-layer-icon" (click)="changeTileLayer(tileLayer)" title="{{tileLayer.name}}">
-
-                  <img [src]="tileLayer.image" [ngClass]="{'rowActive': tileLayer.name === baseLayerLegend.name }" />
-                </a>
-              </div>
-            </div>
+            <ul class="tile-layers-list">
+              <li *ngFor="let tileLayer of LegendsTileLayer" (click)="changeTileLayer(tileLayer)" class="tile-layer-item map-tile-layer-icon">
+                <img [src]="tileLayer.image" [ngClass]="{'rowActive': tileLayer.name === baseLayerLegend.name}" />
+                <span class="tile_name">{{tileLayer.name}}</span>
+              </li>
+            </ul>
             <div class="map-legend-footer">
               <div class="map-legend-left-footer">
                 <small>Opacity</small>
