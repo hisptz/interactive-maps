@@ -31,7 +31,7 @@
               },
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["src/ee_api_js.js"]
           },
           "configurations": {
             "production": {
