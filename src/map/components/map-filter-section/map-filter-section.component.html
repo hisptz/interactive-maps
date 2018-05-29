@@ -31,22 +31,24 @@
   <div class="visualization-filter-body dashboard-border" *ngIf="selectedFilter">
     <!--org unit filter-->
     <app-org-unit-filter *ngIf="selectedFilter === 'ORG_UNIT'" [orgUnitModel]="orgUnitModel" (onOrgUnitClose)="onFilterClose($event)"
-      (onOrgUnitUpdate)="onFilterUpdateAction($event, 'ORG_UNIT')"></app-org-unit-filter>
+      [isloading]="isFilterSectionLoading$ | async" [justUpdated]="isFilterSectionUpdated$ | async" (onOrgUnitUpdate)="onFilterUpdateAction($event, 'ORG_UNIT')"></app-org-unit-filter>
     <!--end of org unit filter-->
 
     <!--data filter-->
     <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedDataItems" [singleSelection]="singleSelection"
-      (onDataFilterClose)="onFilterClose($event)" (onDataUpdate)="onFilterUpdateAction($event, 'DATA')"></app-data-filter>
+      (onDataFilterClose)="onFilterClose($event)" (onDataUpdate)="onFilterUpdateAction($event, 'DATA')" [isloading]="isFilterSectionLoading$ | async"
+      [justUpdated]="isFilterSectionUpdated$ | async"></app-data-filter>
     <!--end of data filter-->
 
     <!--period filter-->
     <app-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods" [periodConfig]="periodConfig"
-      (onPeriodFilterClose)="onFilterClose($event)" (onPeriodUpdate)="onFilterUpdateAction($event, 'PERIOD')"></app-period-filter>
+      (onPeriodFilterClose)="onFilterClose($event)" (onPeriodUpdate)="onFilterUpdateAction($event, 'PERIOD')" [isloading]="isFilterSectionLoading$ | async"
+      [justUpdated]="isFilterSectionUpdated$ | async"></app-period-filter>
     <!--end of period filter-->
 
     <!-- style filter -->
     <app-map-style *ngIf="selectedFilter === 'STYLE'" [selectedLayer]="selectedLayer" [legendSets]="legendSets$ | async" (onStyleFilterClose)="onFilterClose($event)"
-      (onStyleUpdate)="onStyleFilterUpdate($event)"></app-map-style>
+      (onStyleUpdate)="onStyleFilterUpdate($event)" [isloading]="isFilterSectionLoading$ | async" [justUpdated]="isFilterSectionUpdated$ | async"></app-map-style>
     <!-- end of style filter -->
   </div>
 </div>

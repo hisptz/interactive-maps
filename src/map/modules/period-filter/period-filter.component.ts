@@ -13,6 +13,8 @@ export class PeriodFilterComponent implements OnInit {
   periodTypes: any[];
   @Input() selectedPeriodType = '';
   @Input() selectedPeriods: any[] = [];
+  @Input() isloading: boolean = false;
+  @Input() justUpdated: boolean = false;
   @Input()
   periodConfig: any = {
     resetOnPeriodTypeChange: false,

@@ -1,10 +1,8 @@
-
-import {combineLatest as observableCombineLatest,  of ,  Observable } from 'rxjs';
+import { combineLatest as observableCombineLatest, of, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-
 
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as dataSelectionAction from '../actions/data-selection.action';
@@ -125,9 +123,7 @@ export class AnalyticsEffects {
                 })
               )
             ),
-            catchError(error =>
-              of(new visualizationObjectActions.UpdateVisualizationObjectFail(error))
-            )
+            catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
           );
         }
       }),
@@ -159,9 +155,7 @@ export class AnalyticsEffects {
 
     const dataSelections = { ...oldDataselections, ...newDatas };
     if (noAnalyticsLayers.indexOf(layerName) === -1) {
-      const oldSelection = dataselections.filter(
-        dataselection => dataselection.dimension !== filterType
-      );
+      const oldSelection = dataselections.filter(dataselection => dataselection.dimension !== filterType);
       const getOldParams = oldSelection.map(
         dataselection =>
           `dimension=${dataselection.dimension}:${dataselection.items

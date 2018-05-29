@@ -47,6 +47,8 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   selectedLayer;
   public legendSets$;
   public singleSelection: boolean = true;
+  public isFilterSectionLoading$: Observable<boolean>;
+  public isFilterSectionUpdated$: Observable<boolean>;
   public periodConfig: any = {
     singleSelection: true
   };
@@ -67,11 +69,15 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.showFilters = true;
-    const { layers } = this.mapVisualizationObject;
+    const { layers, componentId } = this.mapVisualizationObject;
     this.selectedLayer = layers[this.activeLayer];
     const { dataSelections } = this.selectedLayer;
     this.getSelectedFilters(dataSelections);
     this.legendSets$ = this.store.select(fromStore.getAllLegendSets);
+    this.isFilterSectionLoading$ = this.store.select(fromStore.isVisualizationLegendFilterSectionLoding(componentId));
+    this.isFilterSectionUpdated$ = this.store.select(
+      fromStore.isVisualizationLegendFilterSectionJustUpdated(componentId)
+    );
   }
 
   toggleFilters(e) {

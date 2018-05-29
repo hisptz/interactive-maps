@@ -63,7 +63,8 @@
   </div>
 
   <div class="style-filter-btns">
-    <button class="btn btn-outline-secondary btn-sm" (click)="onCanceling($event)">Close</button>
-    <button class="btn btn-outline-secondary btn-sm" (click)="onSubmit($event)">Update</button>
+    <button class="btn btn-outline-secondary btn-sm" [disabled]="isloading" (click)="onCanceling($event)">Close</button>
+    <button class="btn btn-sm" [ngClass]="justUpdated ? 'btn btn-outline-success' : 'btn btn-outline-secondary'" [disabled]="isloading"
+      (click)="onSubmit($event)">{{isloading ? 'Updating...' : justUpdated? 'Updated':'Update'}}</button>
   </div>
 </div>

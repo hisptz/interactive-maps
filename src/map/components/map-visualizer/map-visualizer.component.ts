@@ -106,9 +106,13 @@ export class MapVisualizerComponent implements OnChanges {
     );
     if (![].concat.apply([], allGeofeatures).length) {
       this.mapHasGeofeatures = false;
+    } else {
+      this.mapHasGeofeatures = true;
     }
     if (!allDataAnalytics.length) {
       this.mapHasDataAnalytics = false;
+    } else {
+      this.mapHasDataAnalytics = true;
     }
 
     layers.map(layer => {

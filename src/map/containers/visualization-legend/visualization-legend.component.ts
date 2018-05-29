@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable ,  BehaviorSubject ,  SubscriptionLike as ISubscription } from 'rxjs';
+import { Observable, BehaviorSubject, SubscriptionLike as ISubscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { TILE_LAYERS } from '../../constants/tile-layer.constant';
@@ -50,6 +50,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sticky$ = this.store.select(fromStore.isVisualizationLegendPinned(this.mapVisualizationObject.componentId));
+
     this.isFilterSectionOpen$ = this.store.select(
       fromStore.isVisualizationLegendFilterSectionOpen(this.mapVisualizationObject.componentId)
     );
