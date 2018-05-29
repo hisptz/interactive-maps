@@ -90,6 +90,7 @@
   <div>
     <button class="btn btn-outline-secondary btn-sm" [disabled]="isloading" (click)="close($event)">Close</button>
     <button class="btn btn-sm" [ngClass]="justUpdated ? 'btn btn-outline-success' : 'btn btn-outline-secondary'" [disabled]="((selectedItems$ | async).length === 0) || isloading"
-      (click)="emit($event)">{{isloading ? 'Updating...' : justUpdated? 'Updated':'Update'}}</button>
+      (click)="emit($event)">
+      <img src="assets/icons/circle-tick.png" alt="" class="height-20" *ngIf="justUpdated">{{isloading ? 'Updating...' : justUpdated? 'Updated':'Update'}}</button>
   </div>
 </div>

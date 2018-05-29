@@ -18,3 +18,7 @@ body {
 .leaflet-cluster-icon span {
   align-self: center;
 }
+
+.height-20 {
+  height: 20px;
+}

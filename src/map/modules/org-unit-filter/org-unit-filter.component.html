@@ -97,6 +97,7 @@
     <div class="org-unit-actions float-right">
         <button (click)="close($event)" class="btn btn-sm btn-outline-secondary">Cancel</button>
         <button (click)="emit($event)" [disabled]="(orgUnitModel.selectedOrgUnits.length === 0 &&
-          orgUnitModel.selectedUserOrgUnits.length === 0) || isloading" class="btn btn-sm" [ngClass]="justUpdated ? 'btn btn-outline-success' : 'btn btn-outline-secondary'">{{isloading ? 'Updating...' : justUpdated? 'Updated':'Update'}}</button>
+          orgUnitModel.selectedUserOrgUnits.length === 0) || isloading" class="btn btn-sm" [ngClass]="justUpdated ? 'btn btn-outline-success' : 'btn btn-outline-secondary'">
+            <img src="assets/icons/circle-tick.png" alt="" class="height-20" *ngIf="justUpdated">{{isloading ? 'Updating...' : justUpdated? 'Updated':'Update'}}</button>
     </div>
 </div>

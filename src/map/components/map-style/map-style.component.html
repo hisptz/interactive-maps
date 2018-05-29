@@ -65,6 +65,7 @@
   <div class="style-filter-btns">
     <button class="btn btn-outline-secondary btn-sm" [disabled]="isloading" (click)="onCanceling($event)">Close</button>
     <button class="btn btn-sm" [ngClass]="justUpdated ? 'btn btn-outline-success' : 'btn btn-outline-secondary'" [disabled]="isloading"
-      (click)="onSubmit($event)">{{isloading ? 'Updating...' : justUpdated? 'Updated':'Update'}}</button>
+      (click)="onSubmit($event)">
+      <img src="assets/icons/circle-tick.png" alt="" class="height-20" *ngIf="justUpdated">{{isloading ? 'Updating...' : justUpdated? 'Updated':'Update'}}</button>
   </div>
 </div>

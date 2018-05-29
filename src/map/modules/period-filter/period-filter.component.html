@@ -57,7 +57,8 @@
     <div>
       <button class="btn btn-sm btn-outline-secondary" [disabled]="isloading" (click)="closePeriodFilter($event)">Close</button>
       <button class="btn btn-sm" [ngClass]="justUpdated ? 'btn btn-outline-success' : 'btn btn-outline-secondary'" [disabled]="((selectedPeriods$ | async).length === 0) || isloading"
-        (click)="updatePeriod($event)">{{isloading ? 'Updating...' : justUpdated? 'Updated':'Update'}}</button>
+        (click)="updatePeriod($event)">
+        <img src="assets/icons/circle-tick.png" alt="" class="height-20" *ngIf="justUpdated">{{isloading ? 'Updating...' : justUpdated? 'Updated':'Update'}}</button>
     </div>
   </div>
   <!--end of period footer-->
