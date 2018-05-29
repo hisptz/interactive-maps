@@ -61,10 +61,7 @@ export const event = options => {
   let geoJsonLayer = L.geoJSON(features);
 
   if (analyticsData) {
-    const color =
-      eventPointColor && eventPointColor.charAt(0) !== '#'
-        ? '#' + eventPointColor
-        : eventPointColor;
+    const color = eventPointColor && eventPointColor.charAt(0) !== '#' ? '#' + eventPointColor : eventPointColor;
     const items = [
       {
         name: 'Event',
@@ -161,18 +158,27 @@ const eventLayerEvents = () => {
   const onClick = evt => {
     const attr = evt.layer.feature.properties;
     const name = evt.layer.feature.name;
-    const content = `<table><tbody> <tr>
-                      <th>Organisation unit: </th><td>${attr.ouname}</td></tr>
-                    <tr><th>Event time: </th>
-                      <td>${timeFormat('%Y-%m-%d')(new Date(attr.eventdate))}</td>
-                    </tr>
-                    <tr><th>Program Stage: </th>
-                      <td>${name}</td>
-                    </tr>
-                    <tr>
-                      <th>Event location: </th>
-                      <td>${attr.latitude}, ${attr.longitude}</td>
-                    </tr></tbody></table>`;
+    const content = `
+    <table>
+      <tbody>
+        <tr>
+          <th>Organisation unit: </th>
+          <td>${attr.ouname}</td>
+        </tr>
+        <tr>
+          <th>Event time: </th>
+          <td>${timeFormat('%Y-%m-%d')(new Date(attr.eventdate))}</td>
+        </tr>
+        <tr>
+          <th>Program Stage: </th>
+          <td>${name}</td>
+        </tr>
+        <tr>
+          <th>Event location: </th>
+          <td>${attr.latitude}, ${attr.longitude}</td>
+        </tr>
+        </tbody>
+      </table>`;
     // Close any popup if there is one
     evt.layer.closePopup();
     // Bind new popup to the layer
