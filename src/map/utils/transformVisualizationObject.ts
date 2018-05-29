@@ -64,15 +64,15 @@ export function transformVisualizationObject(visualizationObject) {
       method: settings.method || 2
     };
 
-    const displaySettings = _.pick(settings, [
-      'labelFontColor',
-      'labelFontSize',
-      'labelFontStyle',
-      'labelFontWeight',
-      'labels',
-      'hideTitle',
-      'hideSubtitle'
-    ]);
+    const { labelFontColor, labelFontSize, labelFontStyle, labels, hideTitle, hideSubtitle } = settings;
+    const displaySettings = {
+      labelFontColor: labelFontColor === '##normal' ? '#000' : labelFontColor,
+      labelFontSize,
+      labelFontStyle,
+      labels,
+      hideSubtitle,
+      hideTitle
+    };
 
     const dataSelections = _.pick(settings, [
       'config',

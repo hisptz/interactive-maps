@@ -5,8 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "name": "interactive-map",
-    "build":
-      "rm -rf dist && ng build --prod --aot --output-hashing all  --named-chunks false --build-optimizer --vendor-chunk  && cd dist/interactiveMap && zip -r -D InteractiveMap.zip .",
+    "build": "rm -rf dist && ng build --prod --aot --output-hashing all  --named-chunks false --build-optimizer --vendor-chunk  && cd dist/interactiveMap && zip -r -D InteractiveMap.zip .",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -50,6 +49,7 @@
     "ng2-dnd": "^5.0.2",
     "ng2-dragula": "^1.5.0",
     "ngrx-store-freeze": "^0.2.2",
+    "ngx-color-picker": "^6.3.3",
     "ngx-pagination": "^3.1.1",
     "polylabel": "^1.0.2",
     "rxjs": "^6.1.0",
