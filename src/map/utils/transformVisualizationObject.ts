@@ -66,7 +66,7 @@ export function transformVisualizationObject(visualizationObject) {
 
     const { labelFontColor, labelFontSize, labelFontStyle, labels, hideTitle, hideSubtitle } = settings;
     const displaySettings = {
-      labelFontColor: labelFontColor === '##normal' ? '#000' : labelFontColor,
+      labelFontColor: isColor(labelFontColor) ? labelFontColor : '#000',
       labelFontSize,
       labelFontStyle,
       labels,
@@ -129,3 +129,4 @@ const defaultScaleKey = 'YlOrBr';
 const defaultClasses = 5;
 const isVersionGreater = Number(localStorage.getItem('version')) >= 2.28;
 const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);
+const isColor = color => /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
