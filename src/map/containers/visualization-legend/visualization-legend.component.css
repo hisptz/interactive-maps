@@ -580,14 +580,13 @@ table.legend-button-table tr td {
   border-style: none;
   cursor: pointer;
   background-color: hsla(0, 0%, 100%, 0.85);
-  height: 34px;
+  height: 35px;
   width: 34px;
   border-radius: 0 50% 50% 0;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 .visualization-btn img {
@@ -602,6 +601,7 @@ table.legend-button-table tr td {
 
 .filter__button {
   position: absolute;
+  top: 0;
   right: -34px;
   text-align: center;
 }
