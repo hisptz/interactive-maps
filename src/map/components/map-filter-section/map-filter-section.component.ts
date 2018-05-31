@@ -101,7 +101,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
 
     switch (filterType) {
       case 'ORG_UNIT':
-        const _items = items.map(item => ({ displayName: item.name, dimesionItem: item.id }));
+        const _items = items.map(item => ({ displayName: item.name, dimensionItem: item.id }));
         const newdimension = {
           dimension: 'ou',
           items: _items
@@ -118,7 +118,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
       case 'PERIOD':
         const peItems = items.map(item => ({
           displayName: item.name,
-          dimesionItem: item.id,
+          dimensionItem: item.id,
           dimensionItemType: 'PERIOD'
         }));
         const newPeDimension = {
@@ -138,7 +138,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
       case 'DATA':
         const dxItems = filterValue.itemList.map(item => ({
           displayName: item.name,
-          dimesionItem: item.id
+          dimensionItem: item.id
         }));
         const newDxDimension = {
           dimension: 'dx',
