@@ -21,6 +21,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   @Input() functionMappings: any[] = [];
   @Input() hiddenDataElements: any[] = [];
   @Input() singleSelection: boolean = false;
+  @Input() isloading: boolean = false;
+  @Input() justUpdated: boolean = false;
   private _selectedItems: any[];
   selectedItems$: Observable<any>;
   querystring: string = null;

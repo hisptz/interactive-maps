@@ -27,6 +27,7 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
   };
   initial_usr_orgunit = [];
   subscription: Subscription;
+  updatedText: string;
   // The organisation unit configuration object This will have to come from outside.
   @Input()
   orgUnitTreeConfig: any = {
@@ -40,6 +41,8 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
     placeholder: 'Select Organisation Unit'
   };
 
+  @Input() isloading: boolean = false;
+  @Input() justUpdated: boolean = false;
   @Output() onOrgUnitUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() onOrgUnitInit: EventEmitter<any> = new EventEmitter<any>();
   @Output() onOrgUnitModelUpdate: EventEmitter<any> = new EventEmitter<any>();

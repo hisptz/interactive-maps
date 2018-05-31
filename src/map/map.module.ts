@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
+import { ColorPickerModule } from 'ngx-color-picker';
+
 import { reducers, effects } from './store';
 // containers
 import * as fromContainers from './containers';
@@ -21,6 +23,7 @@ import * as Filters from './modules';
   imports: [
     CommonModule,
     NgxPaginationModule,
+    ColorPickerModule,
     ...Filters.modules,
     StoreModule.forFeature('map', reducers),
     EffectsModule.forFeature(effects)

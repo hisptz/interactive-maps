@@ -27,7 +27,7 @@ export class FavouriteService {
 
   getMapFromFav(favId): Observable<any> {
     return this.httpClient.get(
-      `api/maps/${favId}.json?fields=id,user,displayName,
+      `api/maps/${favId}.json?fields=id,user,displayName~rename(name),
         longitude,latitude,zoom,basemap,mapViews%5B*,columns%5Bdimension,filter,
         items%5BdimensionItem,dimensionItemType,displayName%5D%5D,
         rows%5Bdimension,filter,items%5BdimensionItem,dimensionItemType,

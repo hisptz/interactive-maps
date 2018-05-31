@@ -47,6 +47,8 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   selectedLayer;
   public legendSets$;
   public singleSelection: boolean = true;
+  public isFilterSectionLoading$: Observable<boolean>;
+  public isFilterSectionUpdated$: Observable<boolean>;
   public periodConfig: any = {
     singleSelection: true
   };
@@ -67,11 +69,15 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.showFilters = true;
-    const { layers } = this.mapVisualizationObject;
+    const { layers, componentId } = this.mapVisualizationObject;
     this.selectedLayer = layers[this.activeLayer];
     const { dataSelections } = this.selectedLayer;
     this.getSelectedFilters(dataSelections);
     this.legendSets$ = this.store.select(fromStore.getAllLegendSets);
+    this.isFilterSectionLoading$ = this.store.select(fromStore.isVisualizationLegendFilterSectionLoding(componentId));
+    this.isFilterSectionUpdated$ = this.store.select(
+      fromStore.isVisualizationLegendFilterSectionJustUpdated(componentId)
+    );
   }
 
   toggleFilters(e) {
@@ -95,7 +101,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
 
     switch (filterType) {
       case 'ORG_UNIT':
-        const _items = items.map(item => ({ displayName: item.name, dimesionItem: item.id }));
+        const _items = items.map(item => ({ displayName: item.name, dimensionItem: item.id }));
         const newdimension = {
           dimension: 'ou',
           items: _items
@@ -112,7 +118,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
       case 'PERIOD':
         const peItems = items.map(item => ({
           displayName: item.name,
-          dimesionItem: item.id,
+          dimensionItem: item.id,
           dimensionItemType: 'PERIOD'
         }));
         const newPeDimension = {
@@ -132,7 +138,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
       case 'DATA':
         const dxItems = filterValue.itemList.map(item => ({
           displayName: item.name,
-          dimesionItem: item.id
+          dimensionItem: item.id
         }));
         const newDxDimension = {
           dimension: 'dx',
@@ -224,6 +230,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
 
     this.orgUnitModel = {
       ...this.orgUnitModel,
+      selectionMode: selectedLevels.length ? 'Level' : selectedGroups.length ? 'Group' : 'orgUnit',
       selectedLevels: selectedLevels || [],
       selectedOrgUnits: selectedOrgUnits || [],
       selectedUserOrgUnits: selectedUserOrgUnits || [],

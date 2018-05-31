@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { HttpClientService } from './http-client.service';
 import * as _ from 'lodash';
 
-
 @Injectable()
 export class AnalyticsService {
   constructor(private httpClient: HttpClientService) {}
@@ -25,5 +24,9 @@ export class AnalyticsService {
 
   getEventInformation(eventId): Observable<any> {
     return this.httpClient.get(`../../../api/events/${eventId}.json'`);
+  }
+
+  get(url: string): Observable<any> {
+    return this.httpClient.get(url);
   }
 }

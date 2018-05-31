@@ -10,6 +10,8 @@ import { colorBrewer } from '../../utils/colorBrewer';
 export class MapStyleComponent implements OnInit {
   @Input() selectedLayer;
   @Input() legendSets;
+  @Input() isloading: boolean = false;
+  @Input() justUpdated: boolean = false;
   @Output() onStyleUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() onStyleFilterClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   classifications = [{ method: 2, name: 'Equal interval' }, { method: 3, name: 'Equal counts' }];

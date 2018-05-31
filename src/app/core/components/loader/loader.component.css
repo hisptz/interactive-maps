@@ -55,7 +55,7 @@
     rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
 }
 
-@-webkit-keyframes linearRotate {
+@keyframes linearRotate {
   from {
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
