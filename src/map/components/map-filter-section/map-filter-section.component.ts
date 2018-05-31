@@ -230,6 +230,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
 
     this.orgUnitModel = {
       ...this.orgUnitModel,
+      selectionMode: selectedLevels.length ? 'Level' : selectedGroups.length ? 'Group' : 'orgUnit',
       selectedLevels: selectedLevels || [],
       selectedOrgUnits: selectedOrgUnits || [],
       selectedUserOrgUnits: selectedUserOrgUnits || [],
