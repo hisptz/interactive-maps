@@ -66,7 +66,7 @@ export function transformVisualizationObject(visualizationObject) {
 
     const { labelFontColor, labelFontSize, labelFontStyle, labels, hideTitle, hideSubtitle } = settings;
     const displaySettings = {
-      labelFontColor: isColor(labelFontColor) ? labelFontColor : '#000',
+      labelFontColor: isColor(labelFontColor) ? labelFontColor : '#000000',
       labelFontSize,
       labelFontStyle,
       labels,
