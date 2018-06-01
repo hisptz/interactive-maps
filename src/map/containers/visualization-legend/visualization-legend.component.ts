@@ -244,6 +244,10 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromStore.ToggleDataTable(this.mapVisualizationObject.componentId));
   }
 
+  dragged(event) {
+    this.activeLayer = -2;
+  }
+
   dropped(event) {
     const orderedLayers = this.visualizationLegends.map(({ layer }) => layer);
     const { layers } = this.mapVisualizationObject;

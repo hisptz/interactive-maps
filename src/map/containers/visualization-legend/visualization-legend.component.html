@@ -2,7 +2,8 @@
   (mouseout)="hideButtonIcons()">
   <div class="map-legend__container">
     <div class="layers-list">
-      <div class="map-legend-list" *ngIf="visualizationLegends.length" ngxDroppable [model]="visualizationLegends" (drop)="dropped($event)">
+      <div class="map-legend-list" *ngIf="visualizationLegends.length" ngxDroppable [model]="visualizationLegends" (drop)="dropped($event)"
+        (drag)="dragged($event)">
         <div class="map-legend-item" [model]="legend" *ngFor="let legend of visualizationLegends | paginate: { itemsPerPage: 3, currentPage: p }; let i = index;"
           ngxDraggable>
           <div class="map-legend-header" (click)="setActiveItem(i, $event)">
