@@ -12,14 +12,16 @@ export class HttpClientService {
   constructor(private httpClient: HttpClient, private manifestService: ManifestService) {}
 
   get(url: string, useRootUrl: boolean = false, useExternalUrl: boolean = false): Observable<any> {
+    console.log(useRootUrl);
     const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
 
     return useExternalUrl
       ? this.httpClient.get(url).pipe(catchError(error => this._handleError(error)))
       : rootUrlPromise.pipe(
-          flatMap((rootUrl: string) =>
-            this.httpClient.get(rootUrl + url).pipe(catchError(error => this._handleError(error)))
-          )
+          flatMap((rootUrl: string) => {
+            console.log(rootUrl);
+            return this.httpClient.get(rootUrl + url).pipe(catchError(error => this._handleError(error)));
+          })
         );
   }
 

@@ -7,6 +7,7 @@ import { CreateVisualizationAction } from './store/actions/visualization.actions
 import { getFavourites, getFavouriteLoading } from './store/selectors/favourite.selectors';
 import { getVisualizationObject, isVisualizationLoading } from './store/selectors/visualization.selectors';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { Favourite, Visualization } from './core/models';
 import * as L from 'leaflet';
 
@@ -24,7 +25,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public favForm: FormGroup;
   public showFavList: boolean;
 
-  constructor(private store: Store<AppState>, public fb: FormBuilder) {
+  constructor(private store: Store<AppState>, public fb: FormBuilder, private router: Router) {
     this.showFavList = false;
     store.dispatch(new LoadFavouritesAction());
     this.vizObject$ = this.store.select(getVisualizationObject);
@@ -65,7 +66,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   setSelectedFav(fav: Favourite, event) {
     event.stopPropagation();
-    this.store.dispatch(new CreateVisualizationAction(fav.id));
+    this.router.navigate([''], { queryParams: { id: fav.id } });
     this.selectedOption = fav;
     this.showFavList = !this.showFavList;
   }

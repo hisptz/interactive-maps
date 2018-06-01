@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { HttpClientService } from './http-client.service';
+import { NgxDhis2HttpClientService } from 'ngx-dhis2-http-client';
 import { Favourite } from '../models/favourite.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavouriteService {
-  constructor(private httpClient: HttpClientService) {}
+  constructor(private httpClient: NgxDhis2HttpClientService) {}
 
   loadFavourites(): Observable<Favourite[]> {
     return this.httpClient
@@ -20,14 +19,14 @@ export class FavouriteService {
   searchFavourite(favName: string): Observable<Favourite[]> {
     return this.httpClient
       .get(
-        `api/maps.json?fields=id,displayName~rename(name)&filter=displayName:ilike:${favName}&_dc=1514366772136&pageSize=8&page=1&start=0&limit=8`
+        `maps.json?fields=id,displayName~rename(name)&filter=displayName:ilike:${favName}&_dc=1514366772136&pageSize=8&page=1&start=0&limit=8`
       )
       .pipe(map(({ maps }) => maps));
   }
 
   getMapFromFav(favId): Observable<any> {
     return this.httpClient.get(
-      `api/maps/${favId}.json?fields=id,user,displayName~rename(name),
+      `maps/${favId}.json?fields=id,user,displayName~rename(name),
         longitude,latitude,zoom,basemap,mapViews%5B*,columns%5Bdimension,filter,
         items%5BdimensionItem,dimensionItemType,displayName%5D%5D,
         rows%5Bdimension,filter,items%5BdimensionItem,dimensionItemType,

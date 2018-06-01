@@ -20,7 +20,7 @@ import {
   standardizeIncomingAnalytics,
   constructAnalyticsUrl
 } from '../../core/helpers';
-import { HttpClientService } from '../../core/services/http-client.service';
+import { NgxDhis2HttpClientService } from 'ngx-dhis2-http-client';
 import * as _ from 'lodash';
 
 const FAVOURITE_TYPE = 'MAP';
@@ -31,7 +31,7 @@ export class VisualizationEffects {
   constructor(
     private actions$: Actions,
     private favouriteService: FavouriteService,
-    private httpClient: HttpClientService
+    private httpClient: NgxDhis2HttpClientService
   ) {}
 
   @Effect()
@@ -212,10 +212,10 @@ export class VisualizationEffects {
       visualizationFilters
     );
     return analyticsUrl !== ''
-      ? this.httpClient.get(`api/${analyticsUrl}`).pipe(
+      ? this.httpClient.get(`${analyticsUrl}`).pipe(
           mergeMap((analyticsResult: any) => {
             return analyticsResult.count && analyticsResult.count < 2000
-              ? this.httpClient.get(`api/${altenalteAnalyticsUrl}`)
+              ? this.httpClient.get(`${altenalteAnalyticsUrl}`)
               : of(analyticsResult);
           })
         )
@@ -234,9 +234,7 @@ export class VisualizationEffects {
       '!access',
       '!userGroupAccesses'
     ];
-    return needLegends
-      ? this.httpClient.get(`api/legendSets/${legendSet.id}.json?fields=${fields.join(',')}`)
-      : of(null);
+    return needLegends ? this.httpClient.get(`legendSets/${legendSet.id}.json?fields=${fields.join(',')}`) : of(null);
   }
 
   private getFunctionAnalyticsPromise(visualizationFilters: any[]): Observable<any> {

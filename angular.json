@@ -30,7 +30,7 @@
                 "input": "node_modules/leaflet/dist/leaflet.css"
               },
               {
-                "input": "node_modules/@swimlane/ngx-dnd/release/index.css"
+                "input": "node_modules/@swimlane/ngx-dnd/release/ngx-dnd.css"
               },
               "src/styles.css"
             ],

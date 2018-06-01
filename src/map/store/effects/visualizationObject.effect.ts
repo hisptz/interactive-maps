@@ -1,4 +1,4 @@
-import { zip as observableZip, combineLatest as observableCombineLatest, of, Observable } from 'rxjs';
+import { zip as observableZip, combineLatest as observableCombineLatest, of, Observable, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -118,7 +118,7 @@ export class VisualizationObjectEffects {
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   dispatchAddGeoFeaturescomplete$ = this.actions$
     .ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE)
     .pipe(
@@ -156,36 +156,24 @@ export class VisualizationObjectEffects {
 
         const entities = this.getParameterEntities(layers);
         const parameters = Object.keys(entities).map(key => entities[key]);
-        const sources = parameters.map(param => {
-          return this.geofeatureService.getGeoFeatures(param);
-        });
-
-        if (sources.length === 0) {
-          this.store.dispatch(
-            new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({
-              ...vizObject,
-              layers: _layers
+        const sources = parameters.length
+          ? parameters.map(param => {
+              return this.geofeatureService.getGeoFeatures(param);
             })
-          );
-        }
-
-        // This is a hack find a way not to subscribe please!
-        // TODO: remove this hack;
-        observableCombineLatest(sources).subscribe(geofeature => {
-          if (geofeature) {
+          : of([]);
+        return forkJoin(sources).pipe(
+          map(geofeature => {
             const geofeatures = Object.keys(entities).reduce((arr = {}, key, index) => {
               return { ...arr, [key]: geofeature[index] };
             }, {});
-            this.store.dispatch(
-              new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({
-                ...vizObject,
-                layers: _layers,
-                geofeatures
-              })
-            );
-          }
-        });
-        return observableZip(sources);
+            return new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({
+              ...vizObject,
+              layers: _layers,
+              geofeatures
+            });
+          }),
+          catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+        );
       })
     );
 
