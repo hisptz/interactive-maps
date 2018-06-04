@@ -35,7 +35,7 @@
     <div class="" [ngClass]="{'hiddenTree':showOrgTree}" id="tree_view">
         <div class="org-unit-selection-options">
             <div appClickOutside (clickOutside)="showOrgUnitSettings = false" style="position:relative;">
-                <button type="button" class="btn btn-sm btn-outline-secondary" (click)="toggleOrgUnitSettings($event)">
+                <button type="button" class="btn btn-sm btn-outline-secondary d-inline-flex" (click)="toggleOrgUnitSettings($event)">
                     Options
                     <img src="assets/icons/arrow-down.png" class="float-right group-image" style="padding-top: 5px; padding-left: 5px;" alt="">
                 </button>
