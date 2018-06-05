@@ -11,6 +11,8 @@ import * as fromServices from '../../services';
 import * as fromStore from '../../store';
 import { getDimensionItems } from '../../utils/analytics';
 import { toGeoJson } from '../../utils/layers';
+import { standardizeIncomingAnalytics } from '../../utils/standardize-incoming-analytics';
+
 @Injectable()
 export class AnalyticsEffects {
   constructor(
@@ -118,7 +120,7 @@ export class AnalyticsEffects {
           map(
             analytics =>
               new visualizationObjectActions.UpdateFilterAnalytics({
-                analytics: { [layer.id]: analytics },
+                analytics: { [layer.id]: standardizeIncomingAnalytics(analytics, true) },
                 componentId,
                 layer: newLayer
               })

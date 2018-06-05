@@ -1,7 +1,8 @@
 <div class="visualization-filter-section">
   <div class="visualization-filter-buttons">
-    <button type="button" class="btn btn-outline-dark btn-sm button-close visualization-filter-btn border-round-right" title="Filter by different dimensions"
-      [disabled]="!loaded" (click)="toggleFilters($event)">
+    <button type="button" class="btn btn-outline-dark btn-sm button-close d-inline-flex visualization-filter-btn border-round-right"
+      title="Filter by different dimensions" [disabled]="!loaded" (click)="toggleFilters($event)">
+      <img *ngIf="showFilters" src="assets/icons/arrow-left.png" alt="">
       <img *ngIf="showFilters" src="assets/icons/close.png" alt="">
     </button>
     <div class="visualization-filter-list" *ngIf="showFilters">

@@ -28,4 +28,11 @@ body {
   .no-print * {
     display: none !important;
   }
+  body {
+    -webkit-print-color-adjust: exact;
+    width: 100%;
+  }
+  @page {
+    size: landscape;
+  }
 }

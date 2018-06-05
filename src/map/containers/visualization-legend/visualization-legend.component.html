@@ -1,5 +1,4 @@
-<div class="legendFilter__container" [ngStyle]="{'min-height': showFilterContainer ? '387px' : 'auto' }" (mouseover)="showButtonIcons()"
-  (mouseout)="hideButtonIcons()">
+<div class="legendFilter__container" (mouseover)="showButtonIcons()" (mouseout)="hideButtonIcons()">
   <div class="map-legend__container">
     <div class="layers-list">
       <div class="map-legend-list" *ngIf="visualizationLegends.length" ngxDroppable [model]="visualizationLegends" (drop)="dropped($event)"

@@ -7,7 +7,7 @@
 
 .visualization-filter-buttons {
   display: flex;
-  padding: 5px 10px 2px 0px;
+  padding: 3px 10px 3px 0px;
   border-bottom: solid thin #ececec;
 }
 
@@ -86,6 +86,7 @@
 }
 
 .button-close {
+  padding-left: 0;
   border-radius: 0 50% 50% 0;
 }
 
