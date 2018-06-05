@@ -29,6 +29,9 @@
               {
                 "input": "node_modules/leaflet/dist/leaflet.css"
               },
+              {
+                "input": "node_modules/@swimlane/ngx-dnd/release/ngx-dnd.css"
+              },
               "src/styles.css"
             ],
             "scripts": ["src/ee_api_js.js"]

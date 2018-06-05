@@ -31,6 +31,12 @@ export function visualizationReducer(
         loaded: true,
         loading: false
       };
+    case VisualizationActionTypes.LOAD_FAIL:
+      return {
+        ...state,
+        loaded: false,
+        loading: false
+      };
   }
 
   return state;

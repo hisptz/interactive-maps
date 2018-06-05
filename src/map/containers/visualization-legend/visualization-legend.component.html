@@ -1,21 +1,22 @@
-<div class="legendFilter__container" [ngStyle]="{'min-height': showFilterContainer ? '387px' : 'auto' }" (mouseover)="showButtonIcons()"
-  (mouseout)="hideButtonIcons()">
+<div class="legendFilter__container" (mouseover)="showButtonIcons()" (mouseout)="hideButtonIcons()">
   <div class="map-legend__container">
     <div class="layers-list">
-      <div class="map-legend-list" *ngIf="visualizationLegends.length">
-        <div class="map-legend-item" *ngFor="let legend of visualizationLegends | paginate: { itemsPerPage: 3, currentPage: p }; let i = index;">
+      <div class="map-legend-list" *ngIf="visualizationLegends.length" ngxDroppable [model]="visualizationLegends" (drop)="dropped($event)"
+        (drag)="dragged($event)">
+        <div class="map-legend-item" [ngClass]="{'active-legend': activeLayer === i}" [model]="legend" *ngFor="let legend of visualizationLegends | paginate: { itemsPerPage: 3, currentPage: p }; let i = index;"
+          ngxDraggable>
           <div class="map-legend-header" (click)="setActiveItem(i, $event)">
             <div class="map-legend-title-block">
               <img src="assets/icons/map.png" alt="">
               <span class="map-legend-title">{{legend.title || legend.legend.title }}</span>
             </div>
-            <div class="map-legend-title-options">
+            <div class="map-legend-title-options no-print">
               <a (click)="toggleLayerView(i,$event)">
                 <img *ngIf="!legend.hidden" src="assets/icons/eye.png" alt="">
                 <img *ngIf="legend.hidden" src="assets/icons/eye-cross.png" alt="">
               </a>
             </div>
-            <div class="filter__button" *ngIf="activeLayer === i && !(isFilterSectionOpen$ | async)">
+            <div class="filter__button no-print" *ngIf="activeLayer === i && !(isFilterSectionOpen$ | async)">
               <button class="visualization-btn" title="Filter by different dimensions" (click)="openFilters($event)">
                 <img alt="" src="assets/icons/filter.png">
               </button>
@@ -98,7 +99,7 @@
               <img src="assets/icons/map.png" alt="">
               <span class="map-legend-title">Base Maps</span>
             </div>
-            <div class="map-legend-title-options">
+            <div class="map-legend-title-options no-print">
               <a (click)="toggleBaseLayer($event)">
                 <img *ngIf="!baseLayerLegend.hidden" src="assets/icons/eye.png" alt="">
                 <img *ngIf="baseLayerLegend.hidden" src="assets/icons/eye-cross.png" alt="">
@@ -128,7 +129,7 @@
         </div>
       </div>
     </div>
-    <div class="map-legend-footer">
+    <div class="map-legend-footer no-print">
       <div class="map-legend-left-footer">
         <a title="Show map data table">
           <img src="assets/icons/table.png" alt="" (click)="toggleDataTableView($event)">

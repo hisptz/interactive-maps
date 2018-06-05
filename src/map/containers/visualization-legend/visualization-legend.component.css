@@ -601,7 +601,7 @@ table.legend-button-table tr td {
 
 .filter__button {
   position: absolute;
-  top: 0;
+  margin-top: -5px;
   right: -34px;
   text-align: center;
 }
@@ -660,4 +660,8 @@ input[type='range']::-webkit-slider-thumb:active {
   width: 12px;
   height: 12px;
   border-radius: 50%;
+}
+
+.map-legend-item.active-legend {
+  background-color: white;
 }
