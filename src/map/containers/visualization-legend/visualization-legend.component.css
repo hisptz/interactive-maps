@@ -20,6 +20,13 @@
 }
 
 .map-legend-header {
+  padding: 5px 10px 5px 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.map-legend-header-base_layer {
   padding: 5px 10px 5px 10px;
   cursor: pointer;
   display: flex;

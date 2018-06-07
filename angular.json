@@ -20,6 +20,7 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets", "src/manifest.json", "src/manifest.webapp"],
             "styles": [
+              "src/styles.css",
               {
                 "input": "node_modules/angular-tree-component/dist/angular-tree-component.css"
               },
@@ -31,8 +32,7 @@
               },
               {
                 "input": "node_modules/@swimlane/ngx-dnd/release/ngx-dnd.css"
-              },
-              "src/styles.css"
+              }
             ],
             "scripts": ["src/ee_api_js.js"]
           },

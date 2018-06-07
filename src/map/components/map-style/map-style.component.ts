@@ -77,6 +77,12 @@ export class MapStyleComponent implements OnInit {
     this.displaySettings = { ...this.displaySettings, labels };
   }
 
+  toggleShowValues(event) {
+    event.stopPropagation();
+    const values = event.target.checked;
+    this.displaySettings = { ...this.displaySettings, values };
+  }
+
   onFontSizeChange(labelFontSize) {
     this.displaySettings = { ...this.displaySettings, labelFontSize: `${labelFontSize}px` };
   }

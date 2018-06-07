@@ -30,9 +30,10 @@ body {
   }
   body {
     -webkit-print-color-adjust: exact;
-    width: 100%;
+    width: 100% !important;
   }
+
   @page {
-    size: landscape;
+    size: A4 landscape !important;
   }
 }
