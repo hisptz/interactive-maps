@@ -64,7 +64,7 @@ export const thematic = options => {
   const _options = {
     ...otherOptions,
     label: labels ? (values ? '{name}({value})' : '{name}') : undefined,
-    hoverLabel: labels ? '{name} ({value})' : undefined,
+    hoverLabel: undefined,
     labelPane: `${options.id}-labels`,
     data: valueFeatures
   };

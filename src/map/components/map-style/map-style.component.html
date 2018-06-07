@@ -75,8 +75,10 @@
     <div class="form-group">
       <label for="fontStyle">Font style</label>
       <div class="btn-group d-block" role="group" id="fontStyle">
-        <button type="button" class="btn btn-outline-dark font-weight-bold active">B</button>
-        <button type="button" class="btn btn-outline-dark font-italic">I</button>
+        <button type="button" class="btn btn-outline-dark font-weight-bold" [class.active]="displaySettings.labelFontWeight === 'bold'"
+          (click)="toggleFontWeight(displaySettings.labelFontWeight)">B</button>
+        <button type="button" class="btn btn-outline-dark font-italic" (click)="toggleFontStyle(displaySettings.labelFontStyle)"
+          [class.active]="displaySettings.labelFontStyle === 'italic'">I</button>
       </div>
     </div>
     <div class="form-group">

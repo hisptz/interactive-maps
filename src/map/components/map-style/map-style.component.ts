@@ -93,6 +93,18 @@ export class MapStyleComponent implements OnInit {
     return fontSize ? fontSize.split('px')[0] : fontSize;
   }
 
+  toggleFontWeight(FontWeight) {
+    const labelFontWeight = FontWeight === 'bold' ? undefined : 'bold';
+    this.displaySettings = { ...this.displaySettings, labelFontWeight };
+    console.log(labelFontWeight);
+  }
+
+  toggleFontStyle(FontStyle) {
+    const labelFontStyle = FontStyle === 'normal' ? 'italic' : 'normal';
+    this.displaySettings = { ...this.displaySettings, labelFontStyle };
+    console.log(labelFontStyle);
+  }
+
   onRadiusLowChange(radiusLow) {
     this.layerOptions = { ...this.layerOptions, radiusLow };
   }
