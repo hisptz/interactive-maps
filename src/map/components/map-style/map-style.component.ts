@@ -24,14 +24,16 @@ export class MapStyleComponent implements OnInit {
   isAutomatic: boolean;
   legendProperties;
   displaySettings;
+  layerOptions;
 
   colors = Object.keys(colorBrewer);
   constructor() {}
 
   ngOnInit() {
-    const { displaySettings, legendProperties, legendSet } = this.selectedLayer;
+    const { displaySettings, legendProperties, legendSet, layerOptions } = this.selectedLayer;
     this.displaySettings = { ...displaySettings };
     this.legendProperties = { ...legendProperties };
+    this.layerOptions = { ...layerOptions };
     this.isAutomatic = legendSet ? false : true;
     this.currentLegendSet = legendSet;
     this.fontStyleActive = !(this.displaySettings.labelFontStyle === 'normal');
@@ -91,6 +93,13 @@ export class MapStyleComponent implements OnInit {
     return fontSize ? fontSize.split('px')[0] : fontSize;
   }
 
+  onRadiusLowChange(radiusLow) {
+    this.layerOptions = { ...this.layerOptions, radiusLow };
+  }
+  onRadiusHighChange(radiusHigh) {
+    this.layerOptions = { ...this.layerOptions, radiusHigh };
+  }
+
   onSubmit(e) {
     e.stopPropagation();
     const classSize = this.legendProperties.classes;
@@ -101,6 +110,7 @@ export class MapStyleComponent implements OnInit {
     this.legendProperties = { ...this.legendProperties, colorScale, colorLow, colorHigh };
     const layer = {
       ...this.selectedLayer,
+      layerOptions: this.layerOptions,
       legendSet: this.currentLegendSet,
       legendProperties: this.legendProperties,
       displaySettings: this.displaySettings

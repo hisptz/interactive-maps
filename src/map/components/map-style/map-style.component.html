@@ -61,12 +61,12 @@
       <input (change)="toggleShowLabel($event)" type="checkbox" class="form-check-input" id="showlabels" [checked]="displaySettings.labels">
       <label class="form-check-label" for="showlabels">Show labels</label>
     </div>
-    <div class="form-check">
-      <input (change)="toggleShowValues($event)" type="checkbox" class="form-check-input" id="showvalues" [checked]="displaySettings.labels">
+    <div class="form-check" *ngIf="displaySettings.labels">
+      <input (change)="toggleShowValues($event)" type="checkbox" class="form-check-input" id="showvalues" [checked]="displaySettings.values">
       <label class="form-check-label" for="showvalues">Show values</label>
     </div>
   </div>
-  <div class="labels-options">
+  <div class="labels-options" *ngIf="displaySettings.labels">
     <div class="form-group">
       <label for="fontSizeInput">Font size</label>
       <input (change)="onFontSizeChange($event.target.value)" id="fontSizeInput" class="form-control size-input" type="number"
@@ -86,19 +86,19 @@
         [cpOKButton]="true" [cpOKButtonText]="'Done'" [cpOKButtonClass]="'btn btn-outline-primary btn-xs'" [value]="displaySettings.labelFontColor">
     </div>
   </div>
-  <div class="form-group row mt-1" *ngIf="isAutomatic">
+  <div class="form-group row mt-1">
     <label for="radius" class="col-sm-4 col-form-label">Radius:</label>
     <div class="col-sm-8 d-flex" id="radius">
       <div class="form-group row mr-1">
         <label for="radiusLow" class="col-sm-4 col-form-label">Low:</label>
         <div class="col-sm-8">
-          <input (change)="onFontSizeChange($event.target.value)" id="radiusLow" class="form-control" type="number" [value]="getNumberFromFontSize(displaySettings.labelFontSize)">
+          <input (change)="onRadiusLowChange($event.target.value)" id="radiusLow" class="form-control" type="number" [value]="layerOptions.radiusLow">
         </div>
       </div>
       <div class="form-group row">
         <label for="radiusHigh" class="col-sm-4 col-form-label">High:</label>
         <div class="col-sm-8">
-          <input (change)="onFontSizeChange($event.target.value)" id="radiusHigh" class="form-control" type="number" [value]="getNumberFromFontSize(displaySettings.labelFontSize)">
+          <input (change)="onRadiusHighChange($event.target.value)" id="radiusHigh" class="form-control" type="number" [value]="layerOptions.radiusHigh">
         </div>
       </div>
     </div>

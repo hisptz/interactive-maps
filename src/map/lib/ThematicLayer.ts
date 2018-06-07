@@ -22,7 +22,7 @@ export const thematic = options => {
   } = options;
   const { rows, columns, filters } = dataSelections;
   const { radiusLow, radiusHigh } = layerOptions;
-  const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels } = displaySettings;
+  const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels, values } = displaySettings;
   const features = toGeoJson(geofeature);
   const otherOptions = thematicLayerOptions(options.id, opacity, displaySettings);
   const valueById = getValueById(analyticsData);
@@ -47,7 +47,7 @@ export const thematic = options => {
     const item = getLegendItem(value);
     if (item) {
       item.count++;
-      properties.percentage = (item.count / orderedValues.length * 100).toFixed(1);
+      properties.percentage = ((item.count / orderedValues.length) * 100).toFixed(1);
     }
     properties.value = value;
     properties.label = name;
@@ -59,11 +59,11 @@ export const thematic = options => {
       fontColor: labelFontColor,
       fontWeight: labelFontWeight
     };
-    properties.radius = (value - minValue) / (maxValue - minValue) * (radiusHigh - radiusLow) + radiusLow;
+    properties.radius = ((value - minValue) / (maxValue - minValue)) * (radiusHigh - radiusLow) + radiusLow;
   });
   const _options = {
     ...otherOptions,
-    label: labels ? '{name}' : undefined,
+    label: labels ? (values ? '{name}({value})' : '{name}') : undefined,
     hoverLabel: labels ? '{name} ({value})' : undefined,
     labelPane: `${options.id}-labels`,
     data: valueFeatures
