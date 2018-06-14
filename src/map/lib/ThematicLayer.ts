@@ -1,13 +1,9 @@
 import * as L from 'leaflet';
 import * as _ from 'lodash';
-import { label } from './Label';
-import { getOrgUnitsFromRows, getPeriodFromFilters, getDataItemsFromColumns } from '../utils/analytics';
+import { getDataItemsFromColumns, getPeriodNameFromId, getPeriodFromFilters } from '../utils/analytics';
 import { getLegendItems, getLegendItemForValue, getColorsByRgbInterpolation } from '../utils/classify';
 import { toGeoJson } from './GeoJson';
-import { GeoJson } from 'leaflet';
-import { Feature, GeometryObject } from 'geojson';
 import { geoJsonExtended } from './geoJsonExtended';
-import { getLabelLatlng } from '../utils/layers';
 
 export const thematic = options => {
   const {
@@ -39,8 +35,8 @@ export const thematic = options => {
     : createLegendFromConfig(orderedValues, legendProperties, options.displayName, options.type);
   legend.items.forEach(item => (item.count = 0));
   const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
-  legend['period'] =
-    (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) || analyticsData.metaData.pe[0];
+  const period = getPeriodFromFilters(dataSelections.filters);
+  legend['period'] = getPeriodNameFromId(period);
 
   valueFeatures.forEach(({ id, properties }) => {
     const value = valueById[id];
