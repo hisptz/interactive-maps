@@ -1,22 +1,21 @@
-import { zip as observableZip, combineLatest as observableCombineLatest, of, Observable, forkJoin } from 'rxjs';
+import { of, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, switchMap, catchError, combineLatest, flatMap, mergeMap, tap, mergeAll } from 'rxjs/operators';
+import { map, switchMap, catchError, tap } from 'rxjs/operators';
 
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as legendSetActions from '../actions/legend-set.action';
 import * as layerActions from '../actions/layers.action';
 import * as fromServices from '../../services';
 import * as fromStore from '../../store';
-import * as fromUtils from '../../utils';
 import { Layer } from '../../models/layer.model';
-import { toGeoJson } from '../../utils/layers';
+import { toGeoJson, getPeriodFromFilters } from '../../utils';
 import { timeFormat } from 'd3-time-format';
 
 @Injectable()
 export class VisualizationObjectEffects {
-  private program: string;
+  public program: string;
   private programStage: string;
 
   constructor(
@@ -27,26 +26,22 @@ export class VisualizationObjectEffects {
     private systemService: fromServices.SystemService
   ) {}
   @Effect()
-  createVisualizationObjet$ = this.actions$
-    .ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT)
-    .pipe(
-      map(
-        (action: visualizationObjectActions.CreateVisualizationObject) =>
-          new visualizationObjectActions.CreateVisualizationObjectSuccess(action.payload)
-      ),
-      catchError(error => of(new visualizationObjectActions.CreateVisualizationObjectFail(error)))
-    );
+  createVisualizationObjet$ = this.actions$.ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT).pipe(
+    map(
+      (action: visualizationObjectActions.CreateVisualizationObject) =>
+        new visualizationObjectActions.CreateVisualizationObjectSuccess(action.payload)
+    ),
+    catchError(error => of(new visualizationObjectActions.CreateVisualizationObjectFail(error)))
+  );
 
   @Effect()
-  updateStyleVisualizationObjet$ = this.actions$
-    .ofType(layerActions.UPDATE_LAYER_STYLE)
-    .pipe(
-      map(
-        (action: visualizationObjectActions.UpdateVisualizationObject) =>
-          new visualizationObjectActions.UpdateVisualizationObjectSuccess(action.payload)
-      ),
-      catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
-    );
+  updateStyleVisualizationObjet$ = this.actions$.ofType(layerActions.UPDATE_LAYER_STYLE).pipe(
+    map(
+      (action: visualizationObjectActions.UpdateVisualizationObject) =>
+        new visualizationObjectActions.UpdateVisualizationObjectSuccess(action.payload)
+    ),
+    catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+  );
 
   @Effect({ dispatch: false })
   dispatchCreateAnalytics$ = this.actions$.ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT_SUCCESS).pipe(
@@ -236,6 +231,7 @@ export class VisualizationObjectEffects {
       ...layer.dataSelections.columns,
       ...layer.dataSelections.filters
     ];
+    const period = getPeriodFromFilters(requestParams);
     const dimensions = [];
 
     requestParams.map(param => {
@@ -251,10 +247,10 @@ export class VisualizationObjectEffects {
     let url = `${layer.dataSelections.program.id}.json?stage=${layer.dataSelections.programStage.id}&${dimensions.join(
       '&'
     )}`;
-    if (layer.dataSelections.endDate) {
+    if (layer.dataSelections.endDate && !period) {
       url += `&endDate=${layer.dataSelections.endDate.split('T')[0]}`;
     }
-    if (layer.dataSelections.startDate) {
+    if (layer.dataSelections.startDate && !period)) {
       url += `&startDate=${layer.dataSelections.startDate.split('T')[0]}`;
     }
     return url;
