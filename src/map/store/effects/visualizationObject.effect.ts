@@ -250,7 +250,7 @@ export class VisualizationObjectEffects {
     if (layer.dataSelections.endDate && !period) {
       url += `&endDate=${layer.dataSelections.endDate.split('T')[0]}`;
     }
-    if (layer.dataSelections.startDate && !period)) {
+    if (layer.dataSelections.startDate && !period) {
       url += `&startDate=${layer.dataSelections.startDate.split('T')[0]}`;
     }
     return url;
