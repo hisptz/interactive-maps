@@ -54,13 +54,14 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.isFilterSectionOpen$ = this.store.select(
       fromStore.isVisualizationLegendFilterSectionOpen(this.mapVisualizationObject.componentId)
     );
-    const layers = this.mapVisualizationObject.layers;
 
     this.visualizationLegends$ = this.store
       .select(fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId))
       .subscribe(visualizationLengends => {
         if (visualizationLengends) {
-          this.visualizationLegends = Object.keys(visualizationLengends).map(key => visualizationLengends[key]);
+          this.visualizationLegends = Object.keys(visualizationLengends)
+            .map(key => visualizationLengends[key])
+            .reverse();
           this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
         }
       });
@@ -249,7 +250,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   }
 
   dropped(event) {
-    const orderedLayers = this.visualizationLegends.map(({ layer }) => layer);
+    const orderedLayers = this.visualizationLegends.map(({ layer }) => layer).reverse();
     const { layers } = this.mapVisualizationObject;
     const newLayers = orderedLayers.map(layerId => layers.filter(layer => layer.id === layerId)[0]);
     const vizObject = { ...this.mapVisualizationObject, layers: newLayers };

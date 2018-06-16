@@ -1,13 +1,9 @@
 import * as L from 'leaflet';
 import * as _ from 'lodash';
-import { label } from './Label';
-import { getOrgUnitsFromRows, getPeriodFromFilters, getDataItemsFromColumns } from '../utils/analytics';
+import { getDataItemsFromColumns, getPeriodNameFromId, getPeriodFromFilters } from '../utils/analytics';
 import { getLegendItems, getLegendItemForValue, getColorsByRgbInterpolation } from '../utils/classify';
 import { toGeoJson } from './GeoJson';
-import { GeoJson } from 'leaflet';
-import { Feature, GeometryObject } from 'geojson';
 import { geoJsonExtended } from './geoJsonExtended';
-import { getLabelLatlng } from '../utils/layers';
 
 export const thematic = options => {
   const {
@@ -22,7 +18,7 @@ export const thematic = options => {
   } = options;
   const { rows, columns, filters } = dataSelections;
   const { radiusLow, radiusHigh } = layerOptions;
-  const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels } = displaySettings;
+  const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels, values } = displaySettings;
   const features = toGeoJson(geofeature);
   const otherOptions = thematicLayerOptions(options.id, opacity, displaySettings);
   const valueById = getValueById(analyticsData);
@@ -39,15 +35,15 @@ export const thematic = options => {
     : createLegendFromConfig(orderedValues, legendProperties, options.displayName, options.type);
   legend.items.forEach(item => (item.count = 0));
   const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
-  legend['period'] =
-    (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) || analyticsData.metaData.pe[0];
+  const period = getPeriodFromFilters(dataSelections.filters);
+  legend['period'] = getPeriodNameFromId(period);
 
   valueFeatures.forEach(({ id, properties }) => {
     const value = valueById[id];
     const item = getLegendItem(value);
     if (item) {
       item.count++;
-      properties.percentage = (item.count / orderedValues.length * 100).toFixed(1);
+      properties.percentage = ((item.count / orderedValues.length) * 100).toFixed(1);
     }
     properties.value = value;
     properties.label = name;
@@ -59,12 +55,12 @@ export const thematic = options => {
       fontColor: labelFontColor,
       fontWeight: labelFontWeight
     };
-    properties.radius = (value - minValue) / (maxValue - minValue) * (radiusHigh - radiusLow) + radiusLow;
+    properties.radius = ((value - minValue) / (maxValue - minValue)) * (radiusHigh - radiusLow) + radiusLow;
   });
   const _options = {
     ...otherOptions,
-    label: labels ? '{name}' : undefined,
-    hoverLabel: labels ? '{name} ({value})' : undefined,
+    label: labels ? (values ? '{name}({value})' : '{name}') : undefined,
+    hoverLabel: undefined,
     labelPane: `${options.id}-labels`,
     data: valueFeatures
   };

@@ -9,8 +9,8 @@ body {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
   color: #fff;
   border-radius: 50%;
-  text-align: center;
-  display: flex;
+  text-align: center !important;
+  display: flex !important;
   justify-content: center;
   background-clip: padding-box;
 }
@@ -30,9 +30,10 @@ body {
   }
   body {
     -webkit-print-color-adjust: exact;
-    width: 100%;
+    width: 100% !important;
   }
+
   @page {
-    size: landscape;
+    size: A4 landscape !important;
   }
 }
