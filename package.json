@@ -1,6 +1,6 @@
 {
   "name": "interactive-map",
-  "version": "v1.0.0-beta.3",
+  "version": "1.0.0-beta.3",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

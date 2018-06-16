@@ -1,5 +1,5 @@
 {
-  "version": "v10.0.beta-3",
+  "version": "1.0.0.beta-3",
   "name": "interactiveMap",
   "description": "interactiveMap",
   "launch_path": "index.html",
