@@ -13,8 +13,10 @@ import { VisualizationObject } from '../../models/visualization-object.model';
   templateUrl: './map.component.html'
 })
 export class MapComponent implements OnChanges {
-  @Input() favourite;
   @Input() vizObject;
+  @Input() hiddenDataElements;
+  @Input() renamedDataElements;
+  @Input() functionsMapping;
   visualizationObject: VisualizationObject;
   componentId: string;
   displayConfigurations: any;
@@ -25,17 +27,7 @@ export class MapComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const { favourite, vizObject } = changes;
-    if (favourite && !favourite.firstChange) {
-      const { id } = favourite.currentValue;
-      this.componentId = id;
-      this.transhformFavourites(favourite.currentValue);
-      this.displayConfigurations = {
-        itemHeight: '100vh',
-        mapWidth: '100%'
-      };
-      this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(id));
-    }
+    const { vizObject } = changes;
 
     if (vizObject) {
       const { id } = vizObject.currentValue;
@@ -52,20 +44,6 @@ export class MapComponent implements OnChanges {
 
   getVisualizationObject() {
     this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.componentId));
-  }
-
-  transhformFavourites(favourite) {
-    const { visObject } = fromUtils.transformFavourites(favourite);
-    this.visualizationObject = {
-      ...this.visualizationObject,
-      componentId: this.componentId,
-      ...visObject
-    };
-
-    if (visObject['layers'].length) {
-      this.store.dispatch(new fromStore.CreateVisualizationObject(this.visualizationObject));
-      this.getVisualizationObject();
-    }
   }
 
   transformVisualizationObject(data) {
