@@ -18,8 +18,9 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets", "src/manifest.json"],
+            "assets": ["src/favicon.ico", "src/assets", "src/manifest.json", "src/manifest.webapp"],
             "styles": [
+              "src/styles.css",
               {
                 "input": "node_modules/angular-tree-component/dist/angular-tree-component.css"
               },
@@ -29,9 +30,11 @@
               {
                 "input": "node_modules/leaflet/dist/leaflet.css"
               },
-              "src/styles.css"
+              {
+                "input": "node_modules/@swimlane/ngx-dnd/release/ngx-dnd.css"
+              }
             ],
-            "scripts": []
+            "scripts": ["src/ee_api_js.js"]
           },
           "configurations": {
             "production": {

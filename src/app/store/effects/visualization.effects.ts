@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, flatMap, mergeMap, tap } from 'rxjs/operators';
-import { of, forkJoin, Observable } from 'rxjs';
+import { of, forkJoin, Observable, merge } from 'rxjs';
 import { FavouriteService } from '../../core/services/favourite.service';
 import {
   VisualizationActionTypes,
@@ -9,6 +9,7 @@ import {
   LoadVisualizationFailAction,
   LoadVisualizationSuccessAction,
   TransformFavouriteAction,
+  LoadLegendSet,
   LoadVisualizationAnalyticsAction
 } from '../actions/visualization.actions';
 import { Visualization } from '../../core/models/visualization.model';
@@ -19,7 +20,7 @@ import {
   standardizeIncomingAnalytics,
   constructAnalyticsUrl
 } from '../../core/helpers';
-import { HttpClientService } from '../../core/services/http-client.service';
+import { NgxDhis2HttpClientService } from 'ngx-dhis2-http-client';
 import * as _ from 'lodash';
 
 const FAVOURITE_TYPE = 'MAP';
@@ -30,7 +31,7 @@ export class VisualizationEffects {
   constructor(
     private actions$: Actions,
     private favouriteService: FavouriteService,
-    private httpClient: HttpClientService
+    private httpClient: NgxDhis2HttpClientService
   ) {}
 
   @Effect()
@@ -60,7 +61,7 @@ export class VisualizationEffects {
         subtitle: null,
         details: {
           currentVisualization: FAVOURITE_TYPE,
-          cardHeight: '100vh',
+          cardHeight: '100%',
           type: FAVOURITE_TYPE,
           favorite: {
             type: FAVOURITE_TYPE,
@@ -72,7 +73,28 @@ export class VisualizationEffects {
       const visualization = updateVisualizationWithSettings(initialVisualization, action.visualization);
       return visualization;
     }),
-    map(visualization => new LoadVisualizationAnalyticsAction(visualization)),
+    map(visualization => new LoadLegendSet(visualization)),
+    catchError(error => of(new LoadVisualizationFailAction(error)))
+  );
+
+  @Effect()
+  LoadLegendSets$ = this.actions$.ofType<LoadLegendSet>(VisualizationActionTypes.LOAD_LEGENDSET).pipe(
+    flatMap((action: LoadLegendSet) => {
+      const visualizationObject: Visualization = { ...action.visualization };
+      const visualizationLayers: any[] = [...visualizationObject.layers];
+      const legendSetPromise$ = visualizationLayers.map(({ settings }) => this.getLegendsPromise(settings.legendSet));
+      return forkJoin(legendSetPromise$).pipe(
+        map(legendResponse => {
+          const layers = visualizationLayers.map((layer, index) => {
+            const { settings } = layer;
+            const legendSet = legendResponse[index];
+            return { ...layer, settings: { ...settings, legendSet } };
+          });
+          return { ...visualizationObject, layers };
+        })
+      );
+    }),
+    map(legendSets => new LoadVisualizationAnalyticsAction(legendSets)),
     catchError(error => of(new LoadVisualizationFailAction(error)))
   );
 
@@ -190,14 +212,29 @@ export class VisualizationEffects {
       visualizationFilters
     );
     return analyticsUrl !== ''
-      ? this.httpClient.get(`api/${analyticsUrl}`).pipe(
+      ? this.httpClient.get(`${analyticsUrl}`).pipe(
           mergeMap((analyticsResult: any) => {
             return analyticsResult.count && analyticsResult.count < 2000
-              ? this.httpClient.get(`api/${altenalteAnalyticsUrl}`)
+              ? this.httpClient.get(`${altenalteAnalyticsUrl}`)
               : of(analyticsResult);
           })
         )
       : of(null);
+  }
+
+  private getLegendsPromise(legendSet: any): Observable<any> {
+    const needLegends = legendSet && legendSet.id;
+    const fields = [
+      'id',
+      'displayName~rename(name)',
+      'legends[*,!created',
+      '!lastUpdated',
+      '!displayName',
+      '!externalAccess',
+      '!access',
+      '!userGroupAccesses'
+    ];
+    return needLegends ? this.httpClient.get(`legendSets/${legendSet.id}.json?fields=${fields.join(',')}`) : of(null);
   }
 
   private getFunctionAnalyticsPromise(visualizationFilters: any[]): Observable<any> {

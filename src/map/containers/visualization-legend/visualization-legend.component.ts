@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable ,  BehaviorSubject ,  SubscriptionLike as ISubscription } from 'rxjs';
+import { Observable, BehaviorSubject, SubscriptionLike as ISubscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { TILE_LAYERS } from '../../constants/tile-layer.constant';
@@ -50,16 +50,18 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sticky$ = this.store.select(fromStore.isVisualizationLegendPinned(this.mapVisualizationObject.componentId));
+
     this.isFilterSectionOpen$ = this.store.select(
       fromStore.isVisualizationLegendFilterSectionOpen(this.mapVisualizationObject.componentId)
     );
-    const layers = this.mapVisualizationObject.layers;
 
     this.visualizationLegends$ = this.store
       .select(fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId))
       .subscribe(visualizationLengends => {
         if (visualizationLengends) {
-          this.visualizationLegends = Object.keys(visualizationLengends).map(key => visualizationLengends[key]);
+          this.visualizationLegends = Object.keys(visualizationLengends)
+            .map(key => visualizationLengends[key])
+            .reverse();
           this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
         }
       });
@@ -241,6 +243,18 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   toggleDataTableView(event) {
     event.stopPropagation();
     this.store.dispatch(new fromStore.ToggleDataTable(this.mapVisualizationObject.componentId));
+  }
+
+  dragged(event) {
+    this.activeLayer = -2;
+  }
+
+  dropped(event) {
+    const orderedLayers = this.visualizationLegends.map(({ layer }) => layer).reverse();
+    const { layers } = this.mapVisualizationObject;
+    const newLayers = orderedLayers.map(layerId => layers.filter(layer => layer.id === layerId)[0]);
+    const vizObject = { ...this.mapVisualizationObject, layers: newLayers };
+    this.store.dispatch(new fromStore.UpdateVisualizationObjectSuccess(vizObject));
   }
 
   ngOnDestroy() {

@@ -1,1 +1,17 @@
-{"version":"0.0.0","name":"interactiveMap","description":"interactiveMap","launch_path":"index.html","icons":{"16":"assets/img/icon-16x16.png","48":"assets/img/icon-48x48.png","128":"assets/img/icon-128x128.png"},"developer":{"name":"HISPTZ","url":"https://hisptanzania.org"},"default_locale":"en","activities":{"dhis":{"href":"../../../"}}}
+{
+  "version": "1.0.0.beta-3",
+  "name": "interactiveMap",
+  "description": "interactiveMap",
+  "launch_path": "index.html",
+  "icons": {
+    "48": "assets/img/icon-48.png",
+    "64": "assets/img/icon-64.png",
+    "128": "assets/img/icon-128.png",
+    "512": "assets/img/icon-512.png"
+  },
+  "developer": { "name": "HISPTZ", "url": "https://hisptanzania.org" },
+  "default_locale": "en",
+  "activities": {
+    "dhis": { "href": "../../../" }
+  }
+}
