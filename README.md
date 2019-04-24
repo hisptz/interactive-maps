@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/hisptz/interactive-maps.svg?branch=master)](https://travis-ci.org/hisptz/interactive-maps)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![dependencies Status](https://david-dm.org/hisptz/interactive-maps/status.svg)](https://david-dm.org/hisptz/interactive-maps)
-[![devDependencies Status](https://david-dm.org/hisptz/interactive-maps/dev-status.svg)](https://david-dm.org/hisptz/interactive-maps?type=dev)
+[![devDependencies Status](https://david-dm.org/hisptz/interactive-maps/dev-status.svg)](https://david-dm.org/hisptz/interactive-maps?type=dev) [![Greenkeeper badge](https://badges.greenkeeper.io/interactive-apps/interactive-maps.svg)](https://greenkeeper.io/)
 
 # InteractiveMap
 
