@@ -1,6 +1,6 @@
 import { ActionReducerMap, createSelector, MetaReducer } from '@ngrx/store';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Params } from '@angular/router';
-import { storeFreeze } from 'ngrx-store-freeze';
+
 import { environment } from '../../../environments/environment';
 import { routerReducer, RouterReducerState, RouterStateSerializer } from '@ngrx/router-store';
 import { currentUserReducer, CurrentUserState } from './current-user.reducer';
@@ -36,7 +36,7 @@ export const getCurrentUserState = createSelector(getRootState, (state: AppState
 export const getFavouriteState = createSelector(getRootState, (state: AppState) => state.favourites);
 export const getVisualizationState = createSelector(getRootState, (state: AppState) => state.visualization);
 
-export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [storeFreeze] : [];
+export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
 
 export class CustomSerializer implements RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {

@@ -10,7 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { metaReducers, reducers } from './store/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { effects } from './store/effects';
-import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { RouterStateSerializer, StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RouteSerializer } from './core/utils/route-serializer.util';
 import { CoreModule } from './core';
@@ -31,7 +31,7 @@ import { MapModule } from './../map/map.module';
     /**
      * Reducers
      */
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, { metaReducers, runtimeChecks: { strictStateImmutability: true, strictActionImmutability: true } }),
 
     /**
      * Effects
@@ -41,7 +41,7 @@ import { MapModule } from './../map/map.module';
     /**
      * @ngrx/router-store keeps router state up-to-date in the store
      */
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
 
     /**
      * Dev tool, enabled only in development mode
