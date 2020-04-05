@@ -26,7 +26,7 @@
             <li *ngFor="let item of favourites$ | async">
               <a (click)="setSelectedFav(item, $event)">{{ item.name }}</a>
             </li>
-            <li *ngIf="!(favourites$ | async).length">Not Favourite found</li>
+            <li *ngIf="!(favourites$ | async).length">No Favourite found</li>
           </ul>
           <ul
             class="data-filter-group-list"

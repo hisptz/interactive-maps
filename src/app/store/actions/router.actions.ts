@@ -1,8 +1,8 @@
-import { Action } from '@ngrx/store';
-import { NavigationExtras } from '@angular/router';
+import { Action } from "@ngrx/store";
+import { NavigationExtras } from "@angular/router";
 
-export const GO = '[Router] Go';
-export const ROUTER_NAVIGATION = 'ROUTER_NAVIGATION';
+export const GO = "[Router] Go";
+export const ROUTER_NAVIGATION = "ROUTER_NAVIGATION";
 
 export class Go implements Action {
   readonly type = GO;
@@ -15,7 +15,7 @@ export class Go implements Action {
   ) {}
 }
 
-export const BACK = '[Router] Back';
+export const BACK = "[Router] Back";
 export class Back implements Action {
   readonly type = BACK;
 }
@@ -23,7 +23,7 @@ export class RouterNavigation implements Action {
   readonly type = ROUTER_NAVIGATION;
   constructor(public payload: any) {}
 }
-export const FORWARD = '[Router] Foward';
+export const FORWARD = "[Router] Foward";
 export class Forward implements Action {
   readonly type = FORWARD;
 }
