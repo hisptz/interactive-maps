@@ -1,34 +1,34 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
 
-import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorPickerModule } from "ngx-color-picker";
 
-import { reducers, effects } from './store';
+import { reducers, effects } from "./store";
 // containers
-import * as fromContainers from './containers';
+import * as fromContainers from "./containers";
 // components
-import * as fromComponents from './components';
+import * as fromComponents from "./components";
 
-import * as fromServices from './services';
+import * as fromServices from "./services";
 
-import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxPaginationModule } from "ngx-pagination";
 
-import { NgxDnDModule } from '@swimlane/ngx-dnd';
+import { NgxDnDModule } from "@swimlane/ngx-dnd";
 
 // Filters Modules
-import * as Filters from './modules';
+import * as Filters from "./modules";
 
 @NgModule({
   imports: [
     CommonModule,
     NgxPaginationModule,
     ColorPickerModule,
-    NgxDnDModule,
+    NgxDnDModule.forRoot(),
     ...Filters.modules,
-    StoreModule.forFeature('map', reducers),
+    StoreModule.forFeature("map", reducers),
     EffectsModule.forFeature(effects)
   ],
   providers: [...fromServices.services],

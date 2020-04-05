@@ -2,22 +2,36 @@
 <div class="favourite_selection no-print">
   <form novalidate [formGroup]="favForm">
     <div class="data-filter-group-selection">
-      <button class="btn btn-outline-secondary btn-sm data-filter-group-btn" (click)="toggleFavSelection($event)">
-        <span>{{ selectedOption?.name || 'Select Favourite'}}</span>
+      <button
+        class="btn btn-outline-secondary btn-sm data-filter-group-btn"
+        (click)="toggleFavSelection($event)"
+      >
+        <span>{{ selectedOption?.name || "Select Favourite" }}</span>
         <span>
-          <img src="assets/icons/arrow-down.png" alt="">
+          <img src="assets/icons/arrow-down.png" alt="" />
         </span>
       </button>
       <div class="data-filter-group-panel" *ngIf="showFavList">
         <div class="panel-body data-filter-group-panel-body">
-          <input type="search" class="form-control form-control-sm" placeholder="Search" formControlName="querystring">
-          <ul class="data-filter-group-list" *ngIf="!(isFavouritesLoading$ | async)">
+          <input
+            type="search"
+            class="form-control form-control-sm"
+            placeholder="Search"
+            formControlName="querystring"
+          />
+          <ul
+            class="data-filter-group-list"
+            *ngIf="!(isFavouritesLoading$ | async)"
+          >
             <li *ngFor="let item of favourites$ | async">
               <a (click)="setSelectedFav(item, $event)">{{ item.name }}</a>
             </li>
             <li *ngIf="!(favourites$ | async).length">Not Favourite found</li>
           </ul>
-          <ul class="data-filter-group-list" *ngIf="isFavouritesLoading$ | async">
+          <ul
+            class="data-filter-group-list"
+            *ngIf="isFavouritesLoading$ | async"
+          >
             <li>Loading...</li>
           </ul>
         </div>
@@ -25,6 +39,7 @@
     </div>
   </form>
 </div>
-<app-map [vizObject]="vizObject$ | async" *ngIf="(vizObject$ | async)"></app-map>
+{{ vizObject$ | async | json }}
+<app-map [vizObject]="vizObject$ | async" *ngIf="vizObject$ | async"></app-map>
 <div class="_container__holder" id="mapid" *ngIf="!(vizObject$ | async)"></div>
-<app-loader *ngIf="(isVisualizationLoading$ | async)"></app-loader>
+<app-loader *ngIf="isVisualizationLoading$ | async"></app-loader>
