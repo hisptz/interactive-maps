@@ -1,20 +1,29 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { AppState } from './store/reducers';
-import { LoadFavouritesAction, SearchFavouritesAction } from './store/actions/favourite.actions';
-import { CreateVisualizationAction } from './store/actions/visualization.actions';
-import { getFavourites, getFavouriteLoading } from './store/selectors/favourite.selectors';
-import { getVisualizationObject, isVisualizationLoading } from './store/selectors/visualization.selectors';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { Favourite, Visualization } from './core/models';
-import * as L from 'leaflet';
+import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { AppState } from "./store/reducers";
+import {
+  LoadFavouritesAction,
+  SearchFavouritesAction
+} from "./store/actions/favourite.actions";
+import { CreateVisualizationAction } from "./store/actions/visualization.actions";
+import {
+  getFavourites,
+  getFavouriteLoading
+} from "./store/selectors/favourite.selectors";
+import {
+  getVisualizationObject,
+  isVisualizationLoading
+} from "./store/selectors/visualization.selectors";
+import { Observable } from "rxjs";
+import { Router } from "@angular/router";
+import { Favourite, Visualization } from "./core/models";
+import * as L from "leaflet";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit, AfterViewInit {
   public isFavouritesLoading$: Observable<boolean>;
@@ -25,7 +34,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   public favForm: FormGroup;
   public showFavList: boolean;
 
-  constructor(private store: Store<AppState>, public fb: FormBuilder, private router: Router) {
+  constructor(
+    private store: Store<AppState>,
+    public fb: FormBuilder,
+    private router: Router
+  ) {
     this.showFavList = false;
     store.dispatch(new LoadFavouritesAction());
     this.vizObject$ = this.store.select(getVisualizationObject);
@@ -36,13 +49,16 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.favourites$ = this.store.select(getFavourites);
     this.isFavouritesLoading$ = this.store.select(getFavouriteLoading);
     this.favForm = this.fb.group({
-      querystring: ['']
+      querystring: [""]
     });
     this.onChangeMap();
   }
   ngAfterViewInit() {
-    const mymap = L.map('mapid', { zoomControl: false }).setView([22.763672, 9.795678], 3);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    const mymap = L.map("mapid", { zoomControl: false }).setView(
+      [22.763672, 9.795678],
+      3
+    );
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
       attribution: '&copy;<a href="https://carto.com/attribution">cartoDB</a>',
       maxZoom: 18
     }).addTo(mymap);
@@ -66,7 +82,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   setSelectedFav(fav: Favourite, event) {
     event.stopPropagation();
-    this.router.navigate([''], { queryParams: { id: fav.id } });
+    this.router.navigate([""], { queryParams: { id: fav.id } });
+    this.store.dispatch(new CreateVisualizationAction(fav.id));
     this.selectedOption = fav;
     this.showFavList = !this.showFavList;
   }

@@ -1,16 +1,20 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, BehaviorSubject, SubscriptionLike as ISubscription } from 'rxjs';
-import * as _ from 'lodash';
+import { Component, OnInit, Input, OnDestroy } from "@angular/core";
+import { Store } from "@ngrx/store";
+import {
+  Observable,
+  BehaviorSubject,
+  SubscriptionLike as ISubscription
+} from "rxjs";
+import * as _ from "lodash";
 
-import { TILE_LAYERS } from '../../constants/tile-layer.constant';
-import * as fromStore from '../../store';
-import { LegendSet } from '../../models/Legend-set.model';
+import { TILE_LAYERS } from "../../constants/tile-layer.constant";
+import * as fromStore from "../../store";
+import { LegendSet } from "../../models/Legend-set.model";
 
 @Component({
-  selector: 'app-visualization-legend',
-  templateUrl: './visualization-legend.component.html',
-  styleUrls: ['./visualization-legend.component.css']
+  selector: "app-visualization-legend",
+  templateUrl: "./visualization-legend.component.html",
+  styleUrls: ["./visualization-legend.component.css"]
 })
 export class VisualizationLegendComponent implements OnInit, OnDestroy {
   @Input() mapVisualizationObject: any;
@@ -38,6 +42,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   showTransparent: boolean;
   displayNone: boolean;
   p: number = 1;
+  mapHeight: "";
 
   constructor(private store: Store<fromStore.MapState>) {
     this.displayNone = false;
@@ -49,14 +54,22 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sticky$ = this.store.select(fromStore.isVisualizationLegendPinned(this.mapVisualizationObject.componentId));
+    this.sticky$ = this.store.select(
+      fromStore.isVisualizationLegendPinned(
+        this.mapVisualizationObject.componentId
+      )
+    );
 
     this.isFilterSectionOpen$ = this.store.select(
-      fromStore.isVisualizationLegendFilterSectionOpen(this.mapVisualizationObject.componentId)
+      fromStore.isVisualizationLegendFilterSectionOpen(
+        this.mapVisualizationObject.componentId
+      )
     );
 
     this.visualizationLegends$ = this.store
-      .select(fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId))
+      .select(
+        fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId)
+      )
       .subscribe(visualizationLengends => {
         if (visualizationLengends) {
           this.visualizationLegends = Object.keys(visualizationLengends)
@@ -67,7 +80,9 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       });
 
     this.baseLayerLegend$ = this.store
-      .select(fromStore.getCurrentBaseLayer(this.mapVisualizationObject.componentId))
+      .select(
+        fromStore.getCurrentBaseLayer(this.mapVisualizationObject.componentId)
+      )
       .subscribe(baselayerLegend => {
         if (baselayerLegend) {
           this.baseLayerLegend = { ...baselayerLegend };
@@ -86,7 +101,9 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   setActiveItem(index, e) {
     e.stopPropagation();
     if (index === -1) {
-      this.LegendsTileLayer = Object.keys(TILE_LAYERS).map(layerKey => TILE_LAYERS[layerKey]);
+      this.LegendsTileLayer = Object.keys(TILE_LAYERS).map(
+        layerKey => TILE_LAYERS[layerKey]
+      );
     }
 
     if (this.showFilterContainer) {
@@ -101,7 +118,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   mapDownload(e, fileType, mapLegends) {
     e.stopPropagation();
-    if (fileType === 'csv') {
+    if (fileType === "csv") {
       this.store.dispatch(
         new fromStore.DownloadCSV({
           visualization: this.mapVisualizationObject,
@@ -110,7 +127,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       );
     }
 
-    if (fileType === 'kml') {
+    if (fileType === "kml") {
       this.store.dispatch(
         new fromStore.DownloadKML({
           visualization: this.mapVisualizationObject,
@@ -119,7 +136,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       );
     }
 
-    if (fileType === 'gml') {
+    if (fileType === "gml") {
       this.store.dispatch(
         new fromStore.DownloadGML({
           visualization: this.mapVisualizationObject,
@@ -128,7 +145,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       );
     }
 
-    if (fileType === 'shapefile') {
+    if (fileType === "shapefile") {
       this.store.dispatch(
         new fromStore.DownloadShapeFile({
           visualization: this.mapVisualizationObject,
@@ -137,7 +154,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       );
     }
 
-    if (fileType === 'geojson') {
+    if (fileType === "geojson") {
       this.store.dispatch(
         new fromStore.DownloadJSON({
           visualization: this.mapVisualizationObject,
@@ -149,23 +166,39 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   stickLegendContainer(e) {
     e.stopPropagation();
-    this.store.dispatch(new fromStore.TogglePinVisualizationLegend(this.mapVisualizationObject.componentId));
+    this.store.dispatch(
+      new fromStore.TogglePinVisualizationLegend(
+        this.mapVisualizationObject.componentId
+      )
+    );
   }
 
   closeLegendContainer(e) {
     e.stopPropagation();
-    this.store.dispatch(new fromStore.CloseVisualizationLegend(this.mapVisualizationObject.componentId));
+    this.store.dispatch(
+      new fromStore.CloseVisualizationLegend(
+        this.mapVisualizationObject.componentId
+      )
+    );
   }
 
   openFilters(e) {
     e.stopPropagation();
     this.showFilterContainer = true;
-    this.store.dispatch(new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
+    this.store.dispatch(
+      new fromStore.ToggleVisualizationLegendFilterSection(
+        this.mapVisualizationObject.componentId
+      )
+    );
   }
 
   closeFilters() {
     this.showFilterContainer = false;
-    this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
+    this.store.dispatch(
+      new fromStore.CloseVisualizationLegendFilterSection(
+        this.mapVisualizationObject.componentId
+      )
+    );
   }
 
   toggleLayerView(index, e) {
@@ -212,7 +245,11 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     const { name } = tileLayer;
     const changedBaseLayer = true;
     const payload = {
-      [this.mapVisualizationObject.componentId]: { ...this.baseLayerLegend, name, changedBaseLayer }
+      [this.mapVisualizationObject.componentId]: {
+        ...this.baseLayerLegend,
+        name,
+        changedBaseLayer
+      }
     };
     this.store.dispatch(new fromStore.UpdateBaseLayer(payload));
   }
@@ -242,7 +279,9 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   toggleDataTableView(event) {
     event.stopPropagation();
-    this.store.dispatch(new fromStore.ToggleDataTable(this.mapVisualizationObject.componentId));
+    this.store.dispatch(
+      new fromStore.ToggleDataTable(this.mapVisualizationObject.componentId)
+    );
   }
 
   dragged(event) {
@@ -250,11 +289,17 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   }
 
   dropped(event) {
-    const orderedLayers = this.visualizationLegends.map(({ layer }) => layer).reverse();
+    const orderedLayers = this.visualizationLegends
+      .map(({ layer }) => layer)
+      .reverse();
     const { layers } = this.mapVisualizationObject;
-    const newLayers = orderedLayers.map(layerId => layers.filter(layer => layer.id === layerId)[0]);
+    const newLayers = orderedLayers.map(
+      layerId => layers.filter(layer => layer.id === layerId)[0]
+    );
     const vizObject = { ...this.mapVisualizationObject, layers: newLayers };
-    this.store.dispatch(new fromStore.UpdateVisualizationObjectSuccess(vizObject));
+    this.store.dispatch(
+      new fromStore.UpdateVisualizationObjectSuccess(vizObject)
+    );
   }
 
   ngOnDestroy() {

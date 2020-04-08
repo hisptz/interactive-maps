@@ -39,7 +39,7 @@
     </div>
   </form>
 </div>
-{{ vizObject$ | async | json }}
+<!-- {{ vizObject$ | async | json }} -->
 <app-map [vizObject]="vizObject$ | async" *ngIf="vizObject$ | async"></app-map>
 <div class="_container__holder" id="mapid" *ngIf="!(vizObject$ | async)"></div>
 <app-loader *ngIf="isVisualizationLoading$ | async"></app-loader>

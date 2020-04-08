@@ -31,7 +31,6 @@ export class MapComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("hereeeeeeeee");
     const { favourite, vizObject } = changes;
     if (favourite && !favourite.firstChange) {
       const { id } = favourite.currentValue;

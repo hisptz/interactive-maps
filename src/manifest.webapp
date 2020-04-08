@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0.beta-3",
-  "name": "interactiveMap",
-  "description": "interactiveMap",
+  "version": "2.0.0-alpha.1",
+  "name": "Interactive maps",
+  "description": "interactive map",
   "launch_path": "index.html",
   "icons": {
     "48": "assets/img/icon-48.png",
@@ -9,7 +9,7 @@
     "128": "assets/img/icon-128.png",
     "512": "assets/img/icon-512.png"
   },
-  "developer": { "name": "HISPTZ", "url": "https://hisptanzania.org" },
+  "developer": { "name": "HISPTZ & UDSM DHIS2", "url": "https://hisptanzania.org" },
   "default_locale": "en",
   "activities": {
     "dhis": { "href": "../../../" }
